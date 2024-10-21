@@ -1,0 +1,25 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: YunYing-Server
+  profiles:
+    active: dev
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/yunying?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: ${yunying.database.username}
+    password: ${yunying.database.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+
+
+
+mybatis-plus:
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+  global-config:
+    db-config:
+      update-strategy: not_null
+      id-type: auto
