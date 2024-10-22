@@ -9,3 +9,5 @@ yunying:
   milvus:
     host: localhost
     port: 19530
+    username: root
+    password: milvus

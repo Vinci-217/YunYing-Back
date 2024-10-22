@@ -21,19 +21,21 @@ spring:
     vectorstore:
       milvus:
         client:
-          host: "localhost"
+          host: localhost
           port: 19530
-          username: "root"
-          password: "milvus"
-        databaseName: "default"
-        collectionName: "vector_store"
+          username: root
+          password: milvus
+        databaseName: default
+        collectionName: vector_store
         embeddingDimension: 1536
         indexType: IVF_FLAT
         metricType: COSINE
 
-milvus:
-  host: ${yunying.milvus.host}
-  port: ${yunying.milvus.port}
+#milvus:
+#  host: ${yunying.milvus.host}
+#  port: ${yunying.milvus.port}
+#  username: ${yunying.milvus.username}
+#  password: ${yunying.milvus.password}
 
 
 mybatis-plus:
