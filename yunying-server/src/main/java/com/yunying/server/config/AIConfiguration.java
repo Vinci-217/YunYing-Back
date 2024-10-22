@@ -10,7 +10,7 @@ public class AIConfiguration {
 
     @Bean
     ChatClient chatClient(ChatClient.Builder builder) {
-        return builder.defaultSystem("你将作为一个营养家，给用户提出购餐建议。")
+        return builder.defaultSystem("你将作为一个数据治理的专家。")
                 .build();
     }
 }

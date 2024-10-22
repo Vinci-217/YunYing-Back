@@ -46,7 +46,7 @@ class AIController {
         String output = chatClient.prompt()
                 .messages(historyMessage)
                 .user(userInput)
-                .advisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()))
+//                .advisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()))
                 .call()
                 .content();
 
