@@ -1,4 +1,4 @@
-package com.yunying.server.controller;
+package com.yunying.ai.controller;
 
 
 import lombok.extern.slf4j.Slf4j;

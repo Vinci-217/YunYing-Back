@@ -15,6 +15,10 @@
     <packaging>pom</packaging>
     <description>YunYing</description>
     <url/>
+<!--    <properties>-->
+<!--        <maven.compiler.source>17</maven.compiler.source>-->
+<!--        <maven.compiler.target>17</maven.compiler.target>-->
+<!--    </properties>-->
 
     <licenses>
         <license/>
@@ -30,6 +34,7 @@
     </scm>
     <modules>
         <module>yunying-common</module>
+        <module>yunying-ai</module>
         <module>yunying-server</module>
     </modules>
     <properties>
@@ -38,6 +43,8 @@
         <hutool.version>5.8.11</hutool.version>
         <mysql.version>8.0.28</mysql.version>
         <org.projectlombok.version>1.18.32</org.projectlombok.version>
+        <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
     </properties>
 
     <dependencyManagement>
@@ -60,6 +67,22 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+<!--            &lt;!&ndash;spring cloud&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-dependencies</artifactId>-->
+<!--                <version>${spring-cloud.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
+<!--            &lt;!&ndash;spring cloud alibaba&ndash;&gt;-->
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-alibaba-dependencies</artifactId>-->
+<!--                <version>${spring-cloud-alibaba.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
 
             <dependency>
                 <groupId>org.springframework.ai</groupId>

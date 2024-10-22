@@ -1,6 +1,7 @@
-package com.yunying.server.controller;
+package com.yunying.ai.controller;
 
 import org.springframework.ai.document.Document;
+import org.springframework.ai.vectorstore.MilvusVectorStore;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class VectorController {
     }
 
     @PostMapping("/vector")
-    public List<Document> search(@RequestBody String query) {
+    public List<Document> search(@RequestParam("query") String query) {
         List<Document> documents = new ArrayList<>();
         // 示例文本数据
         String text1 = "Spring AI rocks!!";

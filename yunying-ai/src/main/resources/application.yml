@@ -1,0 +1,44 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: YunYing-AI
+  profiles:
+    active: dev
+  ai:
+    zhipuai:
+      base-url: ${yunying.ai.zhipu.base-url}
+      api-key: ${yunying.ai.zhipu.api-key}
+      chat:
+        options:
+          model: glm-4-flash
+    vectorstore:
+      milvus:
+        client:
+          host: ${yunying.ai.milvus.host}
+          port: ${yunying.ai.milvus.port}
+          username: ${yunying.ai.milvus.username}
+          password: ${yunying.ai.milvus.password}
+        databaseName: default
+        collectionName: vector_store
+        embeddingDimension: 1536
+        indexType: IVF_FLAT
+        metricType: COSINE
+  cloud:
+    nacos:
+      server-addr: ${yunying.nacos.server-addr}
+
+logging:
+  level:
+    com.yunying: debug
+  pattern:
+    dateformat: HH:mm:ss:SSS
+  file:
+    path: "logs/${spring.application.name}"
+
+#milvus:
+#  host: ${yunying.milvus.host}
+#  port: ${yunying.milvus.port}
+#  username: ${yunying.milvus.username}
+#  password: ${yunying.milvus.password}
+

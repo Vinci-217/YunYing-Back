@@ -1,13 +1,8 @@
 yunying:
   database:
+    url: jdbc:mysql://localhost:3306/yunying?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
-    password: 20040217
-  ai:
-    zhipu:
-      base-url: https://open.bigmodel.cn/api/paas/
-      api-key: 7ec775e28bc3e1a6ebffcf3a4c632ee3.ENPC9Hj2PDyJy2oN
-  milvus:
-    host: localhost
-    port: 19530
-    username: root
-    password: milvus
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  nacos:
+    server-addr: 127.0.0.1:8848

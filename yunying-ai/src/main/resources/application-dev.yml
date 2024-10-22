@@ -1,0 +1,12 @@
+yunying:
+  ai:
+    zhipu:
+      base-url: https://open.bigmodel.cn/api/paas/
+      api-key: 7ec775e28bc3e1a6ebffcf3a4c632ee3.ENPC9Hj2PDyJy2oN
+    milvus:
+      host: localhost
+      port: 19530
+      username: root
+      password: milvus
+  nacos:
+    server-addr: 127.0.0.1:8848

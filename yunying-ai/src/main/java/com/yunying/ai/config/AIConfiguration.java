@@ -1,4 +1,4 @@
-package com.yunying.server.config;
+package com.yunying.ai.config;
 
 
 import org.springframework.ai.chat.client.ChatClient;
