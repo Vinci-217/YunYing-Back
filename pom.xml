@@ -36,6 +36,7 @@
         <module>yunying-common</module>
         <module>yunying-ai</module>
         <module>yunying-server</module>
+        <module>yunying-gateway</module>
     </modules>
     <properties>
         <java.version>17</java.version>

@@ -7,11 +7,11 @@
         <artifactId>YunYing</artifactId>
         <version>1.0.0</version>
     </parent>
-    <groupId>yunying-server</groupId>
-    <artifactId>yunying-server</artifactId>
+    <groupId>com.yunying.gateway</groupId>
+    <artifactId>yunying-gateway</artifactId>
     <version>1.0.0</version>
-    <name>yunying-server</name>
-    <description>yunying-server</description>
+    <name>yunying-gateway</name>
+    <description>yunying-gateway</description>
     <url/>
     <licenses>
         <license/>
@@ -25,7 +25,11 @@
         <tag/>
         <url/>
     </scm>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
     <dependencies>
+
         <!--common-->
         <dependency>
             <groupId>com.yunying</groupId>
@@ -33,23 +37,12 @@
             <version>1.0.0</version>
         </dependency>
 
-        <!--mysql-->
+        <!--网关-->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.protobuf</groupId>
-                    <artifactId>protobuf-java</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
-        <!--mybatis-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
         <!--Zookeeper-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -60,25 +53,11 @@
             <artifactId>spring-cloud-starter-zookeeper-config</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bootstrap</artifactId>
-            <version>3.0.3</version>
-        </dependency>
-
-        <!--openFeign-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
         <!--负载均衡器-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
-
-
-
 
     </dependencies>
 
