@@ -45,7 +45,7 @@
         <mysql.version>8.0.28</mysql.version>
         <org.projectlombok.version>1.18.32</org.projectlombok.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
+<!--        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>-->
     </properties>
 
     <dependencyManagement>
@@ -76,7 +76,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--spring cloud alibaba-->
+<!--&lt;!&ndash;            spring cloud alibaba&ndash;&gt;-->
 <!--            <dependency>-->
 <!--                <groupId>com.alibaba.cloud</groupId>-->
 <!--                <artifactId>spring-cloud-alibaba-dependencies</artifactId>-->

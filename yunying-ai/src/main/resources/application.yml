@@ -32,6 +32,9 @@ spring:
       config:
         enabled: true
         root: /config # 配置根路径
+#    sentinel:
+#      transport:
+#        dashboard: localhost:8858
 
 logging:
   level:
