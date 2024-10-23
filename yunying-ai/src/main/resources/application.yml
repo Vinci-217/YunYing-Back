@@ -25,8 +25,13 @@ spring:
         indexType: IVF_FLAT
         metricType: COSINE
   cloud:
-    nacos:
-      server-addr: ${yunying.nacos.server-addr}
+    zookeeper:
+      connect-string: ${yunying.zookeeper.connect-string} # 替换为你的ZooKeeper地址
+      discovery:
+        enabled: true
+      config:
+        enabled: true
+        root: /config # 配置根路径
 
 logging:
   level:

@@ -4,5 +4,5 @@ yunying:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-  nacos:
-    server-addr: 127.0.0.1:8848
+  zookeeper:
+    connect-string: localhost:2181

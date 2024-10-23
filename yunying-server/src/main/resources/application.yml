@@ -11,10 +11,13 @@ spring:
     password: ${yunying.database.password}
     driver-class-name: ${yunying.database.driver-class-name}
   cloud:
-    nacos:
-#      discovery:
-#        server-addr: ${yunying.nacos.server-addr} # nacos??
-      server-addr: 127.0.0.1:8848 # nacos??
+    zookeeper:
+      connect-string: ${yunying.zookeeper.connect-string} # 替换为你的ZooKeeper地址
+      discovery:
+        enabled: true
+#      config:
+#        enabled: true
+#        root: /config # 配置根路径
 
 
 mybatis-plus:

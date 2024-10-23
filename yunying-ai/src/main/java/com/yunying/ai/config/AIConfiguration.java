@@ -2,10 +2,12 @@ package com.yunying.ai.config;
 
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@EnableDiscoveryClient
 public class AIConfiguration {
 
     @Bean
