@@ -10,6 +10,17 @@ spring:
     username: ${yunying.database.username}
     password: ${yunying.database.password}
     driver-class-name: ${yunying.database.driver-class-name}
+
+  redis:
+    port: 6379           # Redis 服务器端口
+    password:   # 如果有密码，填写密码
+    timeout: 2000        # 超时时间，单位毫秒
+    jedis: # 使用 Jedis 作为客户端（可选）
+      pool:
+        max-active: 8    # 连接池中最大连接数
+        max-idle: 8      # 连接池中最大空闲连接
+        min-idle: 0      # 连接池中最小空闲连接
+
   cloud:
     zookeeper:
       connect-string: ${yunying.zookeeper.connect-string} # 替换为你的ZooKeeper地址
@@ -18,6 +29,14 @@ spring:
       config:
         enabled: true
         root: /config # 配置根路径
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      timeout: 1000
+
+
 
 resilience4j:
   circuitbreaker:
