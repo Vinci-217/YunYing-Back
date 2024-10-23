@@ -2,7 +2,7 @@ server:
   port: 8080
 spring:
   application:
-    name: YunYing-AI
+    name: yunying-ai
   profiles:
     active: dev
   ai:
