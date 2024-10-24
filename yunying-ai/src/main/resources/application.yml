@@ -36,6 +36,9 @@ spring:
 #      transport:
 #        dashboard: localhost:8858
 
+
+
+
 logging:
   level:
     com.yunying: debug
@@ -44,9 +47,9 @@ logging:
   file:
     path: "logs/${spring.application.name}"
 
-#milvus:
-#  host: ${yunying.milvus.host}
-#  port: ${yunying.milvus.port}
+milvus:
+  host: ${yunying.milvus.host}
+  port: ${yunying.milvus.port}
 #  username: ${yunying.milvus.username}
 #  password: ${yunying.milvus.password}
 

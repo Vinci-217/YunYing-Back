@@ -10,3 +10,7 @@ yunying:
       password: milvus
   zookeeper:
     connect-string: localhost:2181
+
+  milvus:
+    host: localhost
+    port: 19530

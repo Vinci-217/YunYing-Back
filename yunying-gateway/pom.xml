@@ -35,6 +35,12 @@
             <groupId>com.yunying</groupId>
             <artifactId>yunying-common</artifactId>
             <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>lombok</artifactId>
+                    <groupId>org.projectlombok</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--网关-->

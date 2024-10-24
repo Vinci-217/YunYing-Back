@@ -33,6 +33,12 @@
             <groupId>com.yunying</groupId>
             <artifactId>yunying-common</artifactId>
             <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>lombok</artifactId>
+                    <groupId>org.projectlombok</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
 
@@ -52,26 +58,38 @@
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-milvus-store-spring-boot-starter</artifactId>
         </dependency>
+
+
+
         <!--Zookeeper-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zookeeper-discovery</artifactId>
+            <artifactId>spring-cloud-starter-zookeeper-all</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zookeeper-config</artifactId>
-        </dependency>
+
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
             <version>3.0.3</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bcprov-jdk18on</artifactId>
+                    <groupId>org.bouncycastle</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!--openFeign-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-io</artifactId>
+                    <groupId>commons-io</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!--负载均衡器-->
         <dependency>
