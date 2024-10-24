@@ -23,7 +23,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequestMapping("/ai")
-class AIController {
+public class AIController {
 
     @Autowired
     private ChatClient chatClient;
