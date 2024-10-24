@@ -21,7 +21,7 @@ spring:
           password: ${yunying.ai.milvus.password}
         databaseName: default
         collectionName: vector_store
-        embeddingDimension: 1536
+        embeddingDimension: 1024
         indexType: IVF_FLAT
         metricType: COSINE
   cloud:
