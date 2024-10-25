@@ -15,10 +15,10 @@
     <packaging>pom</packaging>
     <description>YunYing</description>
     <url/>
-<!--    <properties>-->
-<!--        <maven.compiler.source>17</maven.compiler.source>-->
-<!--        <maven.compiler.target>17</maven.compiler.target>-->
-<!--    </properties>-->
+    <!--    <properties>-->
+    <!--        <maven.compiler.source>17</maven.compiler.source>-->
+    <!--        <maven.compiler.target>17</maven.compiler.target>-->
+    <!--    </properties>-->
 
     <licenses>
         <license/>
@@ -37,6 +37,7 @@
         <module>yunying-ai</module>
         <module>yunying-server</module>
         <module>yunying-gateway</module>
+        <module>yunying-gh</module>
     </modules>
     <properties>
         <java.version>17</java.version>
@@ -46,7 +47,7 @@
         <org.projectlombok.version>1.18.34</org.projectlombok.version>
         <spring-cloud.version>2023.0.3</spring-cloud.version>
         <resilience4j.version>2.0.2</resilience4j.version>
-<!--        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>-->
+        <!--        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>-->
     </properties>
 
     <dependencyManagement>
@@ -77,14 +78,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-<!--&lt;!&ndash;            spring cloud alibaba&ndash;&gt;-->
-<!--            <dependency>-->
-<!--                <groupId>com.alibaba.cloud</groupId>-->
-<!--                <artifactId>spring-cloud-alibaba-dependencies</artifactId>-->
-<!--                <version>${spring-cloud-alibaba.version}</version>-->
-<!--                <type>pom</type>-->
-<!--                <scope>import</scope>-->
-<!--            </dependency>-->
+            <!--&lt;!&ndash;            spring cloud alibaba&ndash;&gt;-->
+            <!--            <dependency>-->
+            <!--                <groupId>com.alibaba.cloud</groupId>-->
+            <!--                <artifactId>spring-cloud-alibaba-dependencies</artifactId>-->
+            <!--                <version>${spring-cloud-alibaba.version}</version>-->
+            <!--                <type>pom</type>-->
+            <!--                <scope>import</scope>-->
+            <!--            </dependency>-->
 
             <dependency>
                 <groupId>org.springframework.ai</groupId>
