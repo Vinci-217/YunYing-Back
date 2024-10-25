@@ -1,0 +1,22 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: yunying-gh
+  profiles:
+    active: dev
+  cloud:
+    zookeeper:
+      connect-string: ${yunying.zookeeper.connect-string} # ?????ZooKeeper??
+      discovery:
+        enabled: true
+      config:
+        enabled: true
+        root: /config # ?????
+
+github:
+  token: ${yunying.github.token} # ?????GitHub Token
+
+
+
+

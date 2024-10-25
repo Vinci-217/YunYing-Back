@@ -1,5 +1,6 @@
 package com.yunying.ai.controller;
 
+import com.yunying.common.utils.Result;
 import io.milvus.client.MilvusClient;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
@@ -26,18 +27,19 @@ public class VectorController {
     private EmbeddingModel embeddingModel;
 
     @PostMapping("/insert")
-    public void insert() {
+    public Result insert() {
         List <Document> documents = List.of(
 //                new Document("Spring AI rocks!! Spring AI rocks!! Spring AI rocks!! Spring AI rocks!! Spring AI rocks!!", Map.of("meta1", "meta1")),
 //                new Document("The World is Big and Salvation Lurks Around the Corner"),
                 new Document("原神是一款五星级游戏.", Map.of("meta2", "meta2")));
         vectorStore.add(documents);
+        return Result.success();
     }
 
     @PostMapping("/select")
-    public List<Document> search(@RequestParam("query") String query) {
+    public Result search(@RequestParam("query") String query) {
         List<Document> results = vectorStore.similaritySearch(SearchRequest.query("Spring").withTopK(2));
         System.out.println(results);
-        return results;
+        return Result.success(results);
     }
 }

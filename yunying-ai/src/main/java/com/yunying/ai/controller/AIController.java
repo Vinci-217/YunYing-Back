@@ -1,21 +1,18 @@
 package com.yunying.ai.controller;
 
 
+import com.yunying.common.utils.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
-import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.Message;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +37,7 @@ public class AIController {
     // TODO: 流式响应和UTF-8编码的冲突尚未解决
     // TODO: 仅仅满足了单个用户的聊天，多用户的聊天还需要进一步设计
     @PostMapping(value = "/chat", produces = "text/plain; charset=UTF-8")
-    public String generation(String userInput) {
+    public Result generation(String userInput) {
 
         // 发起聊天请求并处理响应
         String output = chatClient.prompt()
@@ -59,7 +56,7 @@ public class AIController {
             historyMessage = historyMessage.subList(historyMessage.size() - maxLen - 1, historyMessage.size());
         }
 
-        return output;
+        return Result.success(output);
     }
 
 

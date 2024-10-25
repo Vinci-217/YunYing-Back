@@ -1,5 +1,6 @@
 package com.yunying.gh.controller;
 
+import com.yunying.common.utils.Result;
 import com.yunying.gh.service.GithubService;
 import org.kohsuke.github.GHRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,36 +18,37 @@ public class GithubController {
 
     // 获取仓库信息的 API
     @GetMapping("/repo")
-    public String getRepoInfo(@RequestParam String owner, @RequestParam String repoName) {
+    public Result getRepoInfo(@RequestParam String owner, @RequestParam String repoName) {
         try {
             GHRepository repo = gitHubService.getRepositoryInfo(owner, repoName);
-            return "Repository: " + repo.getName() + ", Language: " + repo.getLanguage();
+            String result = "Repository: " + repo.getName() + ", Language: " + repo.getLanguage() + ", Stars: " + repo.getStargazersCount();
+            return Result.success(result);
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error: " + e.getMessage();
+            return Result.error(e.getMessage());
         }
     }
 
     // 获取仓库的 Star 数量的 API
     @GetMapping("/repo/stars")
-    public String getRepoStars(@RequestParam String owner, @RequestParam String repoName) {
+    public Result getRepoStars(@RequestParam String owner, @RequestParam String repoName) {
         try {
             int stars = gitHubService.getRepositoryStars(owner, repoName);
-            return "Stars: " + stars;
+            return Result.success(stars);
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error: " + e.getMessage();
+            return Result.error(e.getMessage());
         }
     }
 
     // 获取用户信息的 API
     @GetMapping("/user")
-    public String getUserInfo(@RequestParam String username) {
+    public Result getUserInfo(@RequestParam String username) {
         try {
-            return gitHubService.getUserInfo(username);
+            return Result.success(gitHubService.getUserInfo(username));
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return Result.error(e.getMessage());
         }
     }
 }
