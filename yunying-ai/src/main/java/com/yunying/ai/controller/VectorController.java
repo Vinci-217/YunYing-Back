@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/ai")
+@RequestMapping("/ai/vector")
 public class VectorController {
 
     @Autowired
@@ -25,25 +25,18 @@ public class VectorController {
     @Autowired
     private EmbeddingModel embeddingModel;
 
-    @GetMapping("/embedding")
-    public Map embed(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
-        EmbeddingResponse embeddingResponse = embeddingModel.embedForResponse(List.of(message));
-        return Map.of("embedding", embeddingResponse.getResults());
+    @PostMapping("/insert")
+    public void insert() {
+        List <Document> documents = List.of(
+//                new Document("Spring AI rocks!! Spring AI rocks!! Spring AI rocks!! Spring AI rocks!! Spring AI rocks!!", Map.of("meta1", "meta1")),
+//                new Document("The World is Big and Salvation Lurks Around the Corner"),
+                new Document("原神是一款五星级游戏.", Map.of("meta2", "meta2")));
+        vectorStore.add(documents);
     }
 
-    @PostMapping("/vector")
+    @PostMapping("/select")
     public List<Document> search(@RequestParam("query") String query) {
-
-
-        List <Document> documents = List.of(
-                new Document("Spring AI rocks!! Spring AI rocks!! Spring AI rocks!! Spring AI rocks!! Spring AI rocks!!", Map.of("meta1", "meta1")),
-                new Document("The World is Big and Salvation Lurks Around the Corner"),
-                new Document("原神是一款五星级游戏.", Map.of("meta2", "meta2")));
-
-        vectorStore.doAdd(documents);
-
         List<Document> results = vectorStore.similaritySearch(SearchRequest.query("Spring").withTopK(2));
-
         System.out.println(results);
         return results;
     }
