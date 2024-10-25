@@ -38,14 +38,14 @@ spring:
 
 
 
-
-logging:
-  level:
-    com.yunying: debug
-  pattern:
-    dateformat: HH:mm:ss:SSS
-  file:
-    path: "logs/${spring.application.name}"
+#
+#logging:
+#  level:
+#    com.yunying: debug
+#  pattern:
+#    dateformat: HH:mm:ss:SSS
+#  file:
+#    path: "logs/${spring.application.name}"
 
 milvus:
   host: ${yunying.milvus.host}
