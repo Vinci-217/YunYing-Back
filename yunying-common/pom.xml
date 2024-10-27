@@ -63,27 +63,27 @@
             <version>3.6.1</version>
         </dependency>
 
-        <!--Flink-->
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-java</artifactId>
-            <version>1.15.4</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>objenesis</artifactId>
-                    <groupId>org.objenesis</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>kryo</artifactId>
-                    <groupId>com.esotericsoftware.kryo</groupId>
-                </exclusion>
-            </exclusions> <!-- 替换为最新版本 -->
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flink</groupId>
-            <artifactId>flink-gelly</artifactId>
-            <version>1.15.4</version>
-        </dependency>
+<!--        &lt;!&ndash;Flink&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-java</artifactId>-->
+<!--            <version>1.15.4</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>objenesis</artifactId>-->
+<!--                    <groupId>org.objenesis</groupId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>kryo</artifactId>-->
+<!--                    <groupId>com.esotericsoftware.kryo</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions> &lt;!&ndash; 替换为最新版本 &ndash;&gt;-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.flink</groupId>-->
+<!--            <artifactId>flink-gelly</artifactId>-->
+<!--            <version>1.15.4</version>-->
+<!--        </dependency>-->
 
 
         <!--        &lt;!&ndash;caffeine&ndash;&gt;-->
