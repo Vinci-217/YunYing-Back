@@ -11,7 +11,7 @@
  Target Server Version : 90001 (9.0.1)
  File Encoding         : 65001
 
- Date: 27/10/2024 19:43:39
+ Date: 28/10/2024 10:39:24
 */
 
 SET NAMES utf8mb4;
@@ -28,6 +28,11 @@ CREATE TABLE `Contribution`  (
   `weight` double NULL DEFAULT NULL COMMENT '【计算字段】贡献权重',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `field` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '【推测字段】开发者领域',
+  `field_conf` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '【推测字段】领域可信度',
+  `commit_count` int NULL DEFAULT NULL COMMENT 'commit的数量',
+  `pr_count` int NULL DEFAULT NULL COMMENT 'PR的数量',
+  `issue_count` int NULL DEFAULT NULL COMMENT 'issue的数量',
   PRIMARY KEY (`con_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
@@ -50,8 +55,6 @@ CREATE TABLE `Developer`  (
   `talent_rank` float NULL DEFAULT NULL COMMENT '【计算字段】技能排序值',
   `nation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '【推测字段】所属国家',
   `nation_conf` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '【推测字段】国家/地区可信度',
-  `field` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '【推测字段】开发者领域',
-  `field_conf` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '【推测字段】领域可信度',
   `profile` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '【生成字段】开发者简介',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '第一此创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -70,9 +73,11 @@ CREATE TABLE `Repository`  (
   `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '仓库描述',
   `owner_id` int NULL DEFAULT NULL COMMENT '仓库作者id',
   `language` json NULL COMMENT '【JSON字段】仓库语言',
-  `watchers_count` int NULL DEFAULT NULL COMMENT '观察者数量',
-  `forks_count` int NULL DEFAULT NULL COMMENT 'fork数量',
-  `stars_count` int NULL DEFAULT NULL COMMENT 'star数量',
+  `watch_count` int NULL DEFAULT NULL COMMENT 'watch数量',
+  `fork_count` int NULL DEFAULT NULL COMMENT 'fork数量',
+  `pr_count` int NULL DEFAULT NULL COMMENT 'PR数量',
+  `star_count` int NULL DEFAULT NULL COMMENT 'star数量',
+  `issue_count` int NULL DEFAULT NULL COMMENT 'issue数量',
   `importance` float NULL DEFAULT NULL COMMENT '【计算字段】仓库重要性评分',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更改时间',
