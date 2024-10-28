@@ -63,46 +63,14 @@
             <version>3.6.1</version>
         </dependency>
 
-<!--        &lt;!&ndash;Flink&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.flink</groupId>-->
-<!--            <artifactId>flink-java</artifactId>-->
-<!--            <version>1.15.4</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>objenesis</artifactId>-->
-<!--                    <groupId>org.objenesis</groupId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>kryo</artifactId>-->
-<!--                    <groupId>com.esotericsoftware.kryo</groupId>-->
-<!--                </exclusion>-->
-<!--            </exclusions> &lt;!&ndash; 替换为最新版本 &ndash;&gt;-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.flink</groupId>-->
-<!--            <artifactId>flink-gelly</artifactId>-->
-<!--            <version>1.15.4</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.jgrapht</groupId>
+            <artifactId>jgrapht-core</artifactId>
+            <version>1.5.1</version>
+        </dependency>
 
 
-        <!--        &lt;!&ndash;caffeine&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.github.ben-manes.caffeine</groupId>-->
-<!--            <artifactId>caffeine</artifactId>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash;AMQP依赖&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.amqp</groupId>-->
-<!--            <artifactId>spring-amqp</artifactId>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash;Spring整合Rabbit依赖&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.amqp</groupId>-->
-<!--            <artifactId>spring-rabbit</artifactId>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
+
     </dependencies>
 
     <build>
