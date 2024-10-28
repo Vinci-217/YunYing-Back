@@ -1,0 +1,17 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: yunying-quartz
+  profiles:
+    active: dev
+
+
+  cloud:
+    zookeeper:
+      connect-string: ${yunying.zookeeper.connect-string} # ?????ZooKeeper??
+      discovery:
+        enabled: true
+      config:
+        enabled: true
+        root: /config # ?????

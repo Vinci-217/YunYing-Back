@@ -7,11 +7,11 @@
         <artifactId>YunYing</artifactId>
         <version>1.0.0</version>
     </parent>
-    <groupId>yunying-server</groupId>
-    <artifactId>yunying-server</artifactId>
-    <version>1.0.0</version>
-    <name>yunying-server</name>
-    <description>yunying-server</description>
+    <groupId>com.yunying.cn</groupId>
+    <artifactId>yunying-quartz</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>yunying-quartz</name>
+    <description>yunying-quartz</description>
     <url/>
     <licenses>
         <license/>
@@ -25,7 +25,11 @@
         <tag/>
         <url/>
     </scm>
+    <properties>
+        <java.version>17</java.version>
+    </properties>
     <dependencies>
+
         <!--common-->
         <dependency>
             <groupId>com.yunying</groupId>
@@ -39,23 +43,6 @@
             </exclusions>
         </dependency>
 
-        <!--mysql-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.protobuf</groupId>
-                    <artifactId>protobuf-java</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!--mybatis-->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
         <!--Zookeeper-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -83,44 +70,12 @@
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
 
-        <!-- 主服务中也需要使用 Resilience4j 熔断功能 -->
+        <!--Quartz-->
         <dependency>
-            <groupId>io.github.resilience4j</groupId>
-            <artifactId>resilience4j-spring-boot3</artifactId>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.3.2</version>
         </dependency>
-
-        <!-- 使用 Spring Cloud Circuit Breaker 集成 Resilience4j -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
-        </dependency>
-
-        <!--Redis-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-        <!--Redisson-->
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson-spring-boot-starter</artifactId>
-            <version>3.21.3</version>
-        </dependency>
-
-        <!--RabbitMQ-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
-
-<!--        &lt;!&ndash;Elasticsearch&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>-->
-<!--        </dependency>-->
-
-
 
     </dependencies>
 

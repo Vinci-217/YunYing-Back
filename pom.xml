@@ -38,6 +38,7 @@
         <module>yunying-server</module>
         <module>yunying-gateway</module>
         <module>yunying-gh</module>
+        <module>yunying-quartz</module>
     </modules>
     <properties>
         <java.version>17</java.version>

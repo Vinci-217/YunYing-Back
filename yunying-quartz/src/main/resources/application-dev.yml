@@ -1,0 +1,4 @@
+yunying:
+  zookeeper:
+    connect-string: localhost:2181
+
