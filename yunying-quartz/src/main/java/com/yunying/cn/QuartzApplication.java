@@ -8,6 +8,7 @@ public class QuartzApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(QuartzApplication.class, args);
+        System.out.println("QuartzApplication started successfully!");
     }
 
 }
