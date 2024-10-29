@@ -56,20 +56,6 @@
             <scope>provided</scope>
         </dependency>
 
-        <!--Math-->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-math3</artifactId>
-            <version>3.6.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jgrapht</groupId>
-            <artifactId>jgrapht-core</artifactId>
-            <version>1.5.1</version>
-        </dependency>
-
-
 
     </dependencies>
 
