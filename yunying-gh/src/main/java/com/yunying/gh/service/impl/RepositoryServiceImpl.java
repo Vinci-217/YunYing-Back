@@ -5,6 +5,7 @@ import com.yunying.gh.mapper.ContributionMapper;
 import com.yunying.gh.mapper.RepositoryMapper;
 import com.yunying.gh.service.IRepositoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yunying.gh.util.NormalizeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +39,10 @@ public class RepositoryServiceImpl extends ServiceImpl<RepositoryMapper, Reposit
         Integer repoId = repository.getRepoId();
         Integer forkCount = repository.getForkCount();
         Integer watchCount = repository.getWatchCount();
-        double commits = contributionMapper.selectCommitCountByRepoId(repoId);
+        int commits = contributionMapper.selectCommitCountByRepoId(repoId);
         Integer issueCount = repository.getIssueCount();
         Integer prCount = repository.getPrCount();
-        double contributors = contributionMapper.selectCountByRepoId(repoId);
+        int contributors = contributionMapper.selectCountByRepoId(repoId);
         Integer starCount = repository.getStarCount();
 
         double originalScore = starCount * 0.4

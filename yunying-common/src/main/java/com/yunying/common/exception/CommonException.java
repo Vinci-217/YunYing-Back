@@ -20,4 +20,8 @@ public class CommonException extends RuntimeException {
         super(cause);
         this.code = code;
     }
+
+    public CommonException(String message) {
+        super(message);
+    }
 }
