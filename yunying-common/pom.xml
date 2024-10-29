@@ -42,23 +42,19 @@
             <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
 
-        <!--mybatis-->
+        <!--Mybatis-plus驱动-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.5.5</version>
         </dependency>
 
-        <!--mysql-->
+        <!--MySQL驱动-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.protobuf</groupId>
-                    <artifactId>protobuf-java</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
+
 
     </dependencies>
 

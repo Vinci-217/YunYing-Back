@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yunying.gh.mapper.ContributionMapper">
+
+    <select id="selectCountByRepoId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM contribution WHERE repo_id = #{repoId}
+    </select>
+    <select id="selectCommitCountByRepoId" resultType="java.lang.Integer">
+        SELECT SUM(commit_count) FROM contribution WHERE repo_id = #{repoId}
+    </select>
+</mapper>
