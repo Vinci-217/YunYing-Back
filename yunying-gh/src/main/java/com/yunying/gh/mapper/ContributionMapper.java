@@ -27,4 +27,14 @@ public interface ContributionMapper extends BaseMapper<Contribution> {
      */
     int selectCommitCountByRepoId(int repoId);
 
+    /**
+     * 根据devId和repoId查询贡献
+     * @param devId
+     * @param repoId
+     * @return
+     */
+    Contribution selectByDevIdAndRepoId(int devId,int repoId);
+
+
+
 }

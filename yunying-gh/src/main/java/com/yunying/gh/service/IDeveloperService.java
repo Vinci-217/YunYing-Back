@@ -13,5 +13,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface IDeveloperService extends IService<Developer> {
 
-
+    /**
+     * 计算开发者的粉丝数
+     * @param developer
+     */
+    void calculateFollowersScore(Developer developer) throws NoSuchFieldException, IllegalAccessException;
 }

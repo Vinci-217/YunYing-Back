@@ -82,6 +82,11 @@ public class Developer implements Serializable {
     private Integer following;
 
     /**
+     * 【计算字段】粉丝权重
+     */
+    private Double followersWeight;
+
+    /**
      * 【计算字段】技能排序值
      */
     private Float talentRank;

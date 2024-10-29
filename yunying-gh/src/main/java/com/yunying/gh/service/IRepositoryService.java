@@ -14,19 +14,15 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface IRepositoryService extends IService<Repository> {
 
 
-    // 计算和缩放得分并更新数据库中的重要性得分
+    /**
+     * 计算项目的重要性得分
+     * @param repository
+     * @throws NoSuchFieldException
+     * @throws IllegalAccessException
+     */
     void calculateImportanceScore(Repository repository) throws NoSuchFieldException, IllegalAccessException;
 
 
 
-//    // 更新所有项目的重要性得分
-//    public void updateAllrepositoryScores() {
-//        List<Repository> repositorys = repositoryRepository.findAll();
-//        for (repository repository : repositorys) {
-//            BigDecimal scaledScore = calculateImportanceScore(repository);
-//            repository.setImportanceScore(scaledScore);
-//            repositoryRepository.save(repository); // 更新数据库中的重要性得分
-//        }
-//    }
 
 }

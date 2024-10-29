@@ -30,6 +30,16 @@ public class RepositoryServiceImpl extends ServiceImpl<RepositoryMapper, Reposit
     @Autowired
     private RepositoryMapper repositoryMapper;
 
+
+    // 权重常量
+    private static final double WEIGHT_STAR = 0.4;
+    private static final double WEIGHT_FORK = 0.2;
+    private static final double WEIGHT_WATCH = 0.1;
+    private static final double WEIGHT_COMMITS = 0.1;
+    private static final double WEIGHT_ISSUE = 0.1;
+    private static final double WEIGHT_PR = 0.05;
+    private static final double WEIGHT_CONTRIBUTORS = 0.05;
+
     /**
      * 计算仓库的重要性得分
      * @param repository
@@ -54,19 +64,18 @@ public class RepositoryServiceImpl extends ServiceImpl<RepositoryMapper, Reposit
         double normalizedPrCount = NormalizeUtil.normalizeValue(prCount, repositoryMapper, "pr_count");
         double normalizedContributors = NormalizeUtil.normalizeValue(contributors, contributionMapper, "contributors");
 
-        double originalScore = normalizedStarCount * 0.4
-                + normalizedForkCount * 0.2
-                + normalizedWatchCount * 0.1
-                + normalizedCommits * 0.1
-                + normalizedIssueCount * 0.1
-                + normalizedPrCount * 0.05
-                + normalizedContributors * 0.05;
+
+        double originalScore = normalizedStarCount * WEIGHT_STAR
+                + normalizedForkCount * WEIGHT_FORK
+                + normalizedWatchCount * WEIGHT_WATCH
+                + normalizedCommits * WEIGHT_COMMITS
+                + normalizedIssueCount * WEIGHT_ISSUE
+                + normalizedPrCount * WEIGHT_PR
+                + normalizedContributors * WEIGHT_CONTRIBUTORS;
 
         float finalScore = ScoreUtil.scaleScore(originalScore);
         // 更新数据库
-        Repository updateRepository = new Repository();
-        updateRepository.setRepoId(repoId);
-        updateRepository.setImportance(finalScore);
+        repository.setImportance(finalScore);
         updateById(repository);
 
     }

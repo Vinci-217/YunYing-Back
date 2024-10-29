@@ -8,4 +8,7 @@
     <select id="selectCommitCountByRepoId" resultType="java.lang.Integer">
         SELECT SUM(commit_count) FROM contribution WHERE repo_id = #{repoId}
     </select>
+    <select id="selectByDevIdAndRepoId" resultType="com.yunying.gh.domain.Contribution">
+        SELECT * FROM contribution WHERE repo_id = #{repoId} AND dev_id = #{devId}
+    </select>
 </mapper>
