@@ -6,6 +6,7 @@ import com.yunying.gh.mapper.RepositoryMapper;
 import com.yunying.gh.service.IRepositoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunying.gh.util.NormalizeUtil;
+import com.yunying.gh.util.ScoreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class RepositoryServiceImpl extends ServiceImpl<RepositoryMapper, Reposit
      * @param repository
      */
     @Override
-    public void calculateImportanceScore(Repository repository) {
+    public void calculateImportanceScore(Repository repository) throws NoSuchFieldException, IllegalAccessException {
         // 提取字段
         Integer repoId = repository.getRepoId();
         Integer forkCount = repository.getForkCount();
@@ -45,22 +46,27 @@ public class RepositoryServiceImpl extends ServiceImpl<RepositoryMapper, Reposit
         int contributors = contributionMapper.selectCountByRepoId(repoId);
         Integer starCount = repository.getStarCount();
 
-        double originalScore = starCount * 0.4
-                + forkCount * 0.2
-                + watchCount * 0.1
-                + commits * 0.1
-                + issueCount * 0.1
-                + prCount * 0.05
-                + contributors * 0.05;
+        double normalizedStarCount = NormalizeUtil.normalizeValue(starCount, repositoryMapper, "star_count");
+        double normalizedForkCount = NormalizeUtil.normalizeValue(forkCount, repositoryMapper, "fork_count");
+        double normalizedWatchCount = NormalizeUtil.normalizeValue(watchCount, repositoryMapper, "watch_count");
+        double normalizedCommits = NormalizeUtil.normalizeValue(commits, contributionMapper, "commits");
+        double normalizedIssueCount = NormalizeUtil.normalizeValue(issueCount, repositoryMapper, "issue_count");
+        double normalizedPrCount = NormalizeUtil.normalizeValue(prCount, repositoryMapper, "pr_count");
+        double normalizedContributors = NormalizeUtil.normalizeValue(contributors, contributionMapper, "contributors");
 
-        // 假设 originalScore 在 0-1 区间内，将得分缩放到 1-10
-        BigDecimal scaledScore = BigDecimal.valueOf(1 + originalScore * 9);
-        scaledScore = scaledScore.setScale(2, RoundingMode.HALF_UP); // 保留2位小数
+        double originalScore = normalizedStarCount * 0.4
+                + normalizedForkCount * 0.2
+                + normalizedWatchCount * 0.1
+                + normalizedCommits * 0.1
+                + normalizedIssueCount * 0.1
+                + normalizedPrCount * 0.05
+                + normalizedContributors * 0.05;
 
+        float finalScore = ScoreUtil.scaleScore(originalScore);
         // 更新数据库
         Repository updateRepository = new Repository();
         updateRepository.setRepoId(repoId);
-        updateRepository.setImportance(scaledScore.floatValue());
+        updateRepository.setImportance(finalScore);
         updateById(repository);
 
     }

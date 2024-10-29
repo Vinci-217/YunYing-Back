@@ -15,7 +15,7 @@ public interface IRepositoryService extends IService<Repository> {
 
 
     // 计算和缩放得分并更新数据库中的重要性得分
-    void calculateImportanceScore(Repository repository);
+    void calculateImportanceScore(Repository repository) throws NoSuchFieldException, IllegalAccessException;
 
 
 
