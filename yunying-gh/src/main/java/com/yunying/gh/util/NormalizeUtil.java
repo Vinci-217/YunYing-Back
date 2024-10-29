@@ -20,7 +20,7 @@ public class NormalizeUtil {
 
 
     // 泛型方法，T 表示实体类型，E 表示主键类型
-    public <T> int selectMaxValue(BaseMapper<T> mapper, Class<T> entityClass, String columnName) throws NoSuchFieldException, IllegalAccessException {
+    public static <T> int selectMaxValue(BaseMapper<T> mapper, Class<T> entityClass, String columnName) throws NoSuchFieldException, IllegalAccessException {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         // 构建查询条件
         queryWrapper.select("MAX(" + columnName + ") AS max_value");
@@ -36,7 +36,7 @@ public class NormalizeUtil {
     }
 
     // 泛型方法，T 表示实体类型，E 表示主键类型
-    public <T> int selectMinValue(BaseMapper<T> mapper, Class<T> entityClass, String columnName) throws NoSuchFieldException, IllegalAccessException {
+    public static <T> int selectMinValue(BaseMapper<T> mapper, Class<T> entityClass, String columnName) throws NoSuchFieldException, IllegalAccessException {
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
         // 构建查询条件
         queryWrapper.select("MIN(" + columnName + ") AS min_value");
