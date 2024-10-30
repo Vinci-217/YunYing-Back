@@ -13,12 +13,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
+
 public class DeveloperGraphService {
 
+    // 仓库重要性权重
     private static final double REPOSITORY_IMPORTANCE_WEIGHT = 0.4;
+    // 贡献权重
     private static final double CONTRIBUTION_WEIGHT = 0.6;
+    // 排名权重
     private static final double RANK_SCORE_WEIGHT = 0.7;
+    // 粉丝数权重
     private static final double FOLLOWERS_COUNT_WEIGHT = 0.3;
 
     private final Graph<Developer, DefaultWeightedEdge> developerGraph;

@@ -3,6 +3,8 @@ package com.yunying.gh.mapper;
 import com.yunying.gh.domain.Contribution;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
+
 /**
  * <p>
  *  Mapper 接口
@@ -36,5 +38,10 @@ public interface ContributionMapper extends BaseMapper<Contribution> {
     Contribution selectByDevIdAndRepoId(int devId,int repoId);
 
 
-
+    /**
+     * 根据devId查询所有的Contribution
+     * @param devId
+     * @return
+     */
+    List<Contribution> selectByDevId(Integer devId);
 }

@@ -11,7 +11,7 @@
  Target Server Version : 90001 (9.0.1)
  File Encoding         : 65001
 
- Date: 29/10/2024 10:14:54
+ Date: 30/10/2024 16:24:11
 */
 
 SET NAMES utf8mb4;
@@ -25,7 +25,7 @@ CREATE TABLE `Contribution`  (
   `con_id` int NOT NULL COMMENT '贡献id',
   `repo_id` int NULL DEFAULT NULL COMMENT '【外键字段】仓库id',
   `dev_id` int NULL DEFAULT NULL COMMENT '【外键字段】开发者id',
-  `score` double NULL DEFAULT NULL COMMENT '【计算字段】贡献分数',
+  `weight` double NULL DEFAULT NULL COMMENT '【计算字段】贡献权重',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `field` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '【推测字段】开发者领域',
@@ -52,6 +52,7 @@ CREATE TABLE `Developer`  (
   `bio` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '自我介绍',
   `followers` int NULL DEFAULT NULL COMMENT '粉丝',
   `following` int NULL DEFAULT NULL COMMENT '关注人数',
+  `followers_weight` double NULL DEFAULT NULL COMMENT '【计算字段】粉丝权重',
   `talent_rank` float NULL DEFAULT NULL COMMENT '【计算字段】技能排序值',
   `nation` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '【推测字段】所属国家',
   `nation_conf` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '【推测字段】国家/地区可信度',

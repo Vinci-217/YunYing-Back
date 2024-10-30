@@ -11,4 +11,8 @@
     <select id="selectByDevIdAndRepoId" resultType="com.yunying.gh.domain.Contribution">
         SELECT * FROM contribution WHERE repo_id = #{repoId} AND dev_id = #{devId}
     </select>
+    <select id="selectByDevId" resultType="com.yunying.gh.domain.Contribution"
+            parameterType="java.lang.Integer">
+        SELECT * FROM contribution WHERE dev_id = #{devId}
+    </select>
 </mapper>
