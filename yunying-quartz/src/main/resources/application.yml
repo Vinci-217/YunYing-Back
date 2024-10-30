@@ -6,6 +6,12 @@ spring:
   profiles:
     active: dev
 
+  datasource:
+    url: ${yunying.database.url}
+    username: ${yunying.database.username}
+    password: ${yunying.database.password}
+    driver-class-name: ${yunying.database.driver-class-name}
+
 
   cloud:
     zookeeper:
@@ -15,3 +21,39 @@ spring:
       config:
         enabled: true
         root: /config # ?????
+
+
+  # 定时器配置
+  quartz:
+    # 使用数据库存储
+    job-store-type: jdbc
+    # 初始化完成后自动启动调度程序
+    autoStartup: true
+    properties:
+      org:
+        quartz:
+          # 调度器配置
+          scheduler:
+            instanceName: bootQuartzScheduler
+            instanceId: AUTO
+          # 存储配置
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            tablePrefix: qrtz_
+            isClustered: true
+            misfireThreshold: 12000
+            clusterCheckinInterval: 15000
+            useProperties: false
+          # 线程池配置
+          threadPool:
+            threadNamePrefix: Boot_Job_Pool
+            threadPriority: 5
+            threadCount: 10
+            class: org.quartz.simpl.SimpleThreadPool
+
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
