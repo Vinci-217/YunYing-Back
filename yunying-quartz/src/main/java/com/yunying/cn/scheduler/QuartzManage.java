@@ -4,6 +4,7 @@ import com.yunying.cn.constant.JobState;
 import com.yunying.cn.entity.QuartzJob;
 import jakarta.annotation.Resource;
 import org.quartz.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -16,7 +17,7 @@ public class QuartzManage {
 
     private static final String SCHEDULE_NAME = "BOOT_JOB_" ;
 
-    @Resource
+    @Autowired
     private Scheduler scheduler ;
 
     /**

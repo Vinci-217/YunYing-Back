@@ -4,13 +4,14 @@ package com.yunying.cn.controller;
 import com.yunying.cn.entity.QuartzJob;
 import com.yunying.cn.service.QuartzJobService;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/quartz")
 public class QuartzController  {
 
-    @Resource
+    @Autowired
     private QuartzJobService quartzJobService ;
 
     @GetMapping("/job/{id}")

@@ -3,14 +3,15 @@ package com.yunying.cn.service;
 
 import com.yunying.cn.entity.QuartzLog;
 import com.yunying.cn.mapper.QuartzLogMapper;
-import jakarta.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service("quartzLogService")
 public class QuartzLogService {
 
-    @Resource
+    @Autowired
     private QuartzLogMapper quartzLogMapper ;
 
     public Integer insert(QuartzLog quartzLog) {

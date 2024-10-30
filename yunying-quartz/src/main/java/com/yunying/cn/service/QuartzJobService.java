@@ -6,8 +6,9 @@ import com.yunying.cn.entity.QuartzJob;
 import com.yunying.cn.mapper.QuartzJobMapper;
 import com.yunying.cn.scheduler.QuartzManage;
 import jakarta.annotation.PostConstruct;
-import jakarta.annotation.Resource;
+
 import org.quartz.CronTrigger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +21,10 @@ import java.util.Objects;
 @Service
 public class QuartzJobService {
 
-    @Resource
+    @Autowired
     private QuartzJobMapper quartzJobMapper ;
 
-    @Resource
+    @Autowired
     private QuartzManage quartzManage;
 
     /**
