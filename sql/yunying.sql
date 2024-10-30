@@ -11,17 +11,17 @@
  Target Server Version : 90001 (9.0.1)
  File Encoding         : 65001
 
- Date: 30/10/2024 16:24:11
+ Date: 30/10/2024 20:09:45
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for Contribution
+-- Table structure for contribution
 -- ----------------------------
-DROP TABLE IF EXISTS `Contribution`;
-CREATE TABLE `Contribution`  (
+DROP TABLE IF EXISTS `contribution`;
+CREATE TABLE `contribution`  (
   `con_id` int NOT NULL COMMENT '贡献id',
   `repo_id` int NULL DEFAULT NULL COMMENT '【外键字段】仓库id',
   `dev_id` int NULL DEFAULT NULL COMMENT '【外键字段】开发者id',
@@ -37,10 +37,10 @@ CREATE TABLE `Contribution`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for Developer
+-- Table structure for developer
 -- ----------------------------
-DROP TABLE IF EXISTS `Developer`;
-CREATE TABLE `Developer`  (
+DROP TABLE IF EXISTS `developer`;
+CREATE TABLE `developer`  (
   `dev_id` int NOT NULL COMMENT '开发者id',
   `dev_login` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '开发者登录id',
   `dev_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '开发者名字',
@@ -63,10 +63,42 @@ CREATE TABLE `Developer`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Table structure for Repository
+-- Table structure for quartz_job
 -- ----------------------------
-DROP TABLE IF EXISTS `Repository`;
-CREATE TABLE `Repository`  (
+DROP TABLE IF EXISTS `quartz_job`;
+CREATE TABLE `quartz_job`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '任务id',
+  `bean_name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'SpringBean名称',
+  `params` varchar(2000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '执行参数',
+  `cron_expres` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'cron表达式',
+  `state` int NULL DEFAULT NULL COMMENT '任务状态：1正常，2暂停，3删除',
+  `remark` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '备注',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '任务列表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for quartz_log
+-- ----------------------------
+DROP TABLE IF EXISTS `quartz_log`;
+CREATE TABLE `quartz_log`  (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '任务日志id',
+  `job_id` int NOT NULL COMMENT '任务id',
+  `bean_name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT 'SpringBean名称',
+  `params` varchar(2000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '执行参数',
+  `state` tinyint NOT NULL COMMENT '任务状态：1成功，2失败',
+  `error` varchar(2000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '失败信息',
+  `times` int NOT NULL COMMENT '耗时(单位：毫秒)',
+  `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `job_id`(`job_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '任务日志' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for repository
+-- ----------------------------
+DROP TABLE IF EXISTS `repository`;
+CREATE TABLE `repository`  (
   `repo_id` int NOT NULL COMMENT '仓库id',
   `repo_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '仓库名字',
   `repo_full_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '仓库全名（包含归属者）',
