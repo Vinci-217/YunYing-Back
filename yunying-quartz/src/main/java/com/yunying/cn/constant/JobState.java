@@ -1,6 +1,9 @@
 package com.yunying.cn.constant;
 
 
+import lombok.Getter;
+
+@Getter
 public enum JobState {
 
     JOB_RUN(1, "运行"),
@@ -13,14 +16,6 @@ public enum JobState {
     JobState(int status, String desc) {
         this.status = status;
         this.desc = desc;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getDesc() {
-        return desc;
     }
 
 }

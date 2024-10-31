@@ -12,8 +12,6 @@ import java.util.Date;
 
 /**
  * 任务记录
- * @author 公众号:知了一笑
- * @since 2023-07-26 10:21
  */
 public class QuartzRecord extends QuartzJobBean {
 

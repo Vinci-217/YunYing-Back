@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-/**
- * @author 公众号:知了一笑
- * @since 2023-07-26 11:44
- */
+
 @Component("printJob")
 public class PrintJob implements JobService {
 

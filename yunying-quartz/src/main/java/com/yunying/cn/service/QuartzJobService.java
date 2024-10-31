@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author 公众号:知了一笑
- * @since 2023-07-26 11:08
- */
+
 @Service
 public class QuartzJobService {
 

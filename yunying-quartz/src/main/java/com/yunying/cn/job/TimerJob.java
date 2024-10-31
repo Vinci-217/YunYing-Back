@@ -7,10 +7,7 @@ import org.springframework.stereotype.Component;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/**
- * @author 公众号:知了一笑
- * @since 2023-07-26 14:51
- */
+
 @Component("timerJob")
 public class TimerJob implements JobService {
 

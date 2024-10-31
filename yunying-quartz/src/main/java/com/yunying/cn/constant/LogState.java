@@ -1,6 +1,9 @@
 package com.yunying.cn.constant;
 
 
+import lombok.Getter;
+
+@Getter
 public enum LogState {
 
     LOG_SUS(1, "成功"),
@@ -12,14 +15,6 @@ public enum LogState {
     LogState(int status, String desc) {
         this.status = status;
         this.desc = desc;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getDesc() {
-        return desc;
     }
 
 }
