@@ -7,10 +7,10 @@ spring:
     active: dev
 
   datasource:
-    url: ${yunying.database.url}
-    username: ${yunying.database.username}
-    password: ${yunying.database.password}
-    driver-class-name: ${yunying.database.driver-class-name}
+    url: ${yunying.datasource.url}
+    username: ${yunying.datasource.username}
+    password: ${yunying.datasource.password}
+    driver-class-name: ${yunying.datasource.driver-class-name}
 
 
   cloud:

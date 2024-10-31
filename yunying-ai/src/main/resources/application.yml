@@ -19,7 +19,7 @@ spring:
           port: ${yunying.ai.milvus.port}
           username: ${yunying.ai.milvus.username}
           password: ${yunying.ai.milvus.password}
-        databaseName: default
+        datasourceName: default
         collectionName: vector_store
         embeddingDimension: 1024
         indexType: IVF_FLAT
