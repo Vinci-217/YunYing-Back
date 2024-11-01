@@ -39,7 +39,7 @@ spring:
 resilience4j:
   circuitbreaker:
     instances:
-      backendA:
+      query:
         slidingWindowSize: 10               # 熔断器统计窗口大小
         minimumNumberOfCalls: 5             # 至少5个请求后才进行熔断计算
         failureRateThreshold: 50            # 失败率阈值（%）
@@ -48,7 +48,7 @@ resilience4j:
 
   ratelimiter:
     instances:
-      backendA:
+      query:
         limitForPeriod: 10                # 每个时间窗口的最大请求数
         limitRefreshPeriod: 1s            # 限流器刷新频率（时间窗口大小）
         timeoutDuration: 500ms            # 获取许可的超时时间
