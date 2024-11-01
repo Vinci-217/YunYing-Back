@@ -7,21 +7,20 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Result {
+public class Result<T> {
     private int code;
     private String message;
-    private Object data;
+    private T data;
 
-    public static Result success(Object data) {
-        return new Result(200, "success", data);
+    public static <T> Result<T> success(T data) {
+        return new Result<>(200, "success", data);
     }
 
-    public static Result success() {
-        return new Result(200, "success", null);
+    public static <T> Result<T> success() {
+        return new Result<>(200, "success", null);
     }
 
-    public static Result error(String message) {
-        return new Result(500, message, null);
+    public static <T> Result<T> error(String message) {
+        return new Result<>(500, message, null);
     }
-
 }
