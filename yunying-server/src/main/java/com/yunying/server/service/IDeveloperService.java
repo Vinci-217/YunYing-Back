@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -23,7 +24,7 @@ public interface IDeveloperService extends IService<Developer> {
      * @param pageSize
      * @return
      */
-    List<Developer> selectByField(@Param("field") String field, @Param("page") Integer page, @Param("pageSize") Integer pageSize);
+    List<Map<String, Object>> selectByField(@Param("field") String field, @Param("page") Integer page, @Param("pageSize") Integer pageSize);
 
     /**
      * 根据领域查询开发者信息
@@ -32,7 +33,7 @@ public interface IDeveloperService extends IService<Developer> {
      * @param pageSize
      * @return
      */
-    List<Developer> selectByNation(@Param("nation") String nation, @Param("page") Integer page, @Param("pageSize") Integer pageSize);
+    List<Map<String, Object>> selectByNation(@Param("nation") String nation, @Param("page") Integer page, @Param("pageSize") Integer pageSize);
 
     /**
      * 根据领域和民族查询开发者信息
@@ -42,7 +43,7 @@ public interface IDeveloperService extends IService<Developer> {
      * @param pageSize
      * @return
      */
-    List<Developer> selectByFieldAndNation(@Param("field") String field, @Param("nation") String nation, @Param("page") Integer page, @Param("pageSize") Integer pageSize);
+    List<Map<String, Object>> selectByFieldAndNation(@Param("field") String field, @Param("nation") String nation, @Param("page") Integer page, @Param("pageSize") Integer pageSize);
 
     /**
      * 查询所有开发者信息
@@ -50,5 +51,17 @@ public interface IDeveloperService extends IService<Developer> {
      * @param pageSize
      * @return
      */
-    List<Developer> selectByPage(@Param("page") Integer page, @Param("pageSize") Integer pageSize);
+    List<Map<String, Object>> selectByPage(@Param("page") Integer page, @Param("pageSize") Integer pageSize);
+
+    /**
+     * 查询所有国家
+     * @return
+     */
+    List<String> selectNation();
+
+    /**
+     * 查询所有领域
+     * @return
+     */
+    List<String> selectField();
 }

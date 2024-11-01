@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -25,25 +26,41 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
     private DeveloperMapper developerMapper;
 
     @Override
-    public List<Developer> selectByField(String field, Integer page, Integer pageSize) {
-        return developerMapper.selectByField(field, page, pageSize);
+    public List<Map<String, Object>> selectByField(String field, Integer page, Integer pageSize) {
+        int limit = pageSize;
+        int offset = (page - 1) * pageSize;
+        return developerMapper.selectByField(field, limit, offset);
     }
 
     @Override
-    public List<Developer> selectByNation(String nation, Integer page, Integer pageSize) {
-        return developerMapper.selectByNation(nation, page, pageSize);
+    public List<Map<String, Object>> selectByNation(String nation, Integer page, Integer pageSize) {
+        int limit = pageSize;
+        int offset = (page - 1) * pageSize;
+        return developerMapper.selectByNation(nation, limit, offset);
     }
 
     @Override
-    public List<Developer> selectByFieldAndNation(String field, String nation, Integer page, Integer pageSize) {
-        return developerMapper.selectByFieldAndNation(field, nation, page, pageSize);
+    public List<Map<String, Object>> selectByFieldAndNation(String field, String nation, Integer page, Integer pageSize) {
+        int limit = pageSize;
+        int offset = (page - 1) * pageSize;
+        return developerMapper.selectByFieldAndNation(field, nation, limit, offset);
     }
 
     @Override
-    public List<Developer> selectByPage(Integer page, Integer pageSize) {
+    public List<Map<String, Object>> selectByPage(Integer page, Integer pageSize) {
         int limit = pageSize;
         int offset = (page - 1) * pageSize;
         return developerMapper.selectByPage(limit, offset);
+    }
+
+    @Override
+    public List<String> selectNation() {
+        return developerMapper.selectNation();
+    }
+
+    @Override
+    public List<String> selectField() {
+        return developerMapper.selectField();
     }
 
 }

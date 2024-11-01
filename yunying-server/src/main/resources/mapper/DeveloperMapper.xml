@@ -2,28 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yunying.server.mapper.DeveloperMapper">
 
-    <select id="selectByField" resultType="com.yunying.server.domain.Developer">
-        SELECT d.* FROM developer d
-                            JOIN contribution c ON d.dev_id = c.dev_id
-        WHERE c.field = #{field}
-        ORDER BY d.talent_rank;
+
+    <select id="selectByField" resultType="java.util.Map">
+        SELECT d.*, c.field, c.field_conf
+        FROM developer d
+                 JOIN (
+            SELECT *, ROW_NUMBER() OVER (PARTITION BY dev_id ORDER BY field_conf DESC) AS rn
+            FROM contribution
+            WHERE field = #{field}
+        ) c ON d.dev_id = c.dev_id AND c.rn = 1
+        ORDER BY d.talent_rank DESC
+        LIMIT #{limit} OFFSET #{offset};
     </select>
-    <select id="selectByNation" resultType="com.yunying.server.domain.Developer">
-        SELECT d.* FROM developer d
-                            JOIN contribution c ON d.dev_id = c.dev_id
+
+    <select id="selectByNation" resultType="java.util.Map">
+        SELECT d.*, c.field, c.field_conf
+        FROM developer d
+                 JOIN (
+            SELECT *, ROW_NUMBER() OVER (PARTITION BY dev_id ORDER BY field_conf DESC) AS rn
+            FROM contribution
+        ) c ON d.dev_id = c.dev_id AND c.rn = 1
+        WHERE  d.nation = #{nation}
+        ORDER BY d.talent_rank DESC
+        LIMIT #{limit} OFFSET #{offset};
+    </select>
+    <select id="selectByFieldAndNation" resultType="java.util.Map">
+        SELECT d.*, c.field, c.field_conf
+        FROM developer d
+                 JOIN (
+            SELECT *, ROW_NUMBER() OVER (PARTITION BY dev_id ORDER BY field_conf DESC) AS rn
+            FROM contribution
+            WHERE field = #{field}
+        ) c ON d.dev_id = c.dev_id AND c.rn = 1
         WHERE d.nation = #{nation}
-        ORDER BY d.talent_rank;
+        ORDER BY d.talent_rank DESC
+        LIMIT #{limit} OFFSET #{offset};
     </select>
-    <select id="selectByFieldAndNation" resultType="com.yunying.server.domain.Developer">
-        SELECT d.* FROM developer d
-                            JOIN contribution c ON d.dev_id = c.dev_id
-        WHERE d.nation = #{nation} AND c.field = #{field}
-        ORDER BY d.talent_rank;
-    </select>
-    <select id="selectByPage" resultType="com.yunying.server.domain.Developer">
-        SELECT d.* FROM developer d
+    <select id="selectByPage" resultType="java.util.Map">
+        SELECT d.*, c.field, c.field_conf FROM developer d
                             JOIN contribution c ON d.dev_id = c.dev_id
         ORDER BY d.talent_rank
         LIMIT #{limit} OFFSET #{offset};
     </select>
+    <select id="selectNation" resultType="java.lang.String">
+        SELECT DISTINCT nation FROM developer;
+    </select>
+    <select id="selectField" resultType="java.lang.String">
+        SELECT DISTINCT field FROM contribution;
+    </select>
+
+
 </mapper>

@@ -2,8 +2,10 @@ package com.yunying.server.mapper;
 
 import com.yunying.server.domain.Developer;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.MapKey;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -15,11 +17,19 @@ import java.util.List;
  */
 public interface DeveloperMapper extends BaseMapper<Developer> {
 
-    List<Developer> selectByField(String field, Integer page, Integer pageSize);
+    @MapKey("dev_id")
+    List<Map<String, Object>> selectByField(String field, Integer limit, Integer offset);
 
-    List<Developer> selectByNation(String nation, Integer page, Integer pageSize);
+    @MapKey("dev_id")
+    List<Map<String, Object>> selectByNation(String nation, Integer limit, Integer offset);
 
-    List<Developer> selectByFieldAndNation(String field, String nation, Integer page, Integer pageSize);
+    @MapKey("dev_id")
+    List<Map<String, Object>> selectByFieldAndNation(String field, String nation, Integer limit, Integer offset);
 
-    List<Developer> selectByPage(Integer limit, Integer offset);
+    @MapKey("dev_id")
+    List<Map<String, Object>> selectByPage(Integer limit, Integer offset);
+
+    List<String> selectNation();
+
+    List<String> selectField();
 }
