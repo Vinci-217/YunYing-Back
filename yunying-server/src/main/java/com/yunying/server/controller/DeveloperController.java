@@ -5,11 +5,8 @@ import com.yunying.common.utils.Result;
 import com.yunying.server.domain.Developer;
 import com.yunying.server.service.IDeveloperService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.a
 
 import java.util.List;
 import java.util.Map;
@@ -81,6 +78,19 @@ public class DeveloperController {
     public Result<List<String>> selectField(){
         List<String> fields = developerService.selectField();
         return Result.success(fields);
+    }
+
+    /**
+     * 根据dev_id查询开发者信息
+     * @param dev_id
+     * @return
+     */
+    @GetMapping("/select/{dev_id}")
+    public Result<Map<String, Object>> selectDeveloper(@PathVariable("dev_id") Integer dev_id){
+        Developer developer = developerService.selectByDevId(dev_id);
+
+
+        return Result.success(developer);
     }
 
 

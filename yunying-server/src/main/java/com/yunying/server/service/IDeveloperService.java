@@ -64,4 +64,11 @@ public interface IDeveloperService extends IService<Developer> {
      * @return
      */
     List<String> selectField();
+
+    /**
+     * 根据开发者id查询开发者信息
+     * @param devId
+     * @return
+     */
+    Developer selectByDevId(@Param("devId") Integer devId);
 }

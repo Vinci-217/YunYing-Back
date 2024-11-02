@@ -30,7 +30,6 @@ spring:
     redis:
       host: localhost
       port: 6379
-      password:
 
   elasticsearch:
     uris: ${yunying.elasticsearch.uris} # 替换为你的ElasticSearch地址

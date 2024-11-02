@@ -76,6 +76,11 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
         return developerMapper.selectField();
     }
 
+    @Override
+    public Developer selectByDevId(Integer devId) {
+        return developerMapper.selectById(devId);
+    }
+
     public List<Map<String,Object>> fallbackMethodList(Throwable throwable) {
         return Collections.emptyList();
     }
