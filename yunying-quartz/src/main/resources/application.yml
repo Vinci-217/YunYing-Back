@@ -21,6 +21,9 @@ spring:
       config:
         enabled: true
         root: /config # ?????
+    openfeign:
+      okhttp:
+        enabled: true
 
 
   # 定时器配置
