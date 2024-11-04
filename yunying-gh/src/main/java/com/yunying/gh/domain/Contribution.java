@@ -2,16 +2,20 @@ package com.yunying.gh.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+
 import java.time.LocalDateTime;
+
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author vinci
@@ -64,7 +68,7 @@ public class Contribution implements Serializable {
     /**
      * 【推测字段】领域可信度
      */
-    private String fieldConf;
+    private Double fieldConf;
 
     /**
      * commit的数量

@@ -6,6 +6,8 @@ import org.kohsuke.github.GHRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/github")
 public class GithubController {
@@ -49,55 +51,71 @@ public class GithubController {
         }
     }
 
-    /**
-     * 更新仓库信息的 API
-     *
-     * @return
-     */
-    @PostMapping("/update/repository")
-    public Result<String> updateRepoInfo() {
-
+    @GetMapping("/user/repos/{username}")
+    public Result<String> getUserRepos(@PathVariable String username) throws IOException {
+        gitHubService.insertContribution(username);
+        return Result.success("success");
     }
-
-    /**
-     * 更新开发者信息的 API
-     *
-     * @return
-     */
-    @PostMapping("/update/developer")
-    public Result<String> updateDeveloperInfo() {
-
-    }
-
-    /**
-     * 更新贡献信息的 API
-     *
-     * @return
-     */
-    @PostMapping("/update/contribution")
-    public Result<String> updateContributionInfo() {
-
-    }
-
-    /**
-     * 更新关注者信息的 API
-     *
-     * @return
-     */
-    @PostMapping("/update/follower")
-    public Result<String> updateFollowerInfo() {
-
-    }
-
-    /**
-     * 更新粉丝信息的 API
-     *
-     * @return
-     */
-    @PostMapping("/update/following")
-    public Result<String> updateFollowingInfo() {
-
-    }
+//
+//    /**
+//     * 更新仓库信息的 API
+//     *
+//     * @return
+//     */
+//    @PostMapping("/update/repository")
+//    public Result<String> updateRepoInfo() {
+//
+//    }
+//
+//    /**
+//     * 更新开发者信息的 API
+//     *
+//     * @return
+//     */
+//    @PostMapping("/update/developer")
+//    public Result<String> updateDeveloperInfo() {
+//
+//    }
+//
+//    /**
+//     * 更新贡献信息的 API
+//     *
+//     * @return
+//     */
+//    @PostMapping("/update/contribution")
+//    public Result<String> updateContributionInfo() {
+//
+//    }
+//
+//    /**
+//     * 更新关注者信息的 API
+//     *
+//     * @return
+//     */
+//    @PostMapping("/update/follower")
+//    public Result<String> updateFollowerInfo() {
+//
+//    }
+//
+//    /**
+//     * 更新粉丝信息的 API
+//     *
+//     * @return
+//     */
+//    @PostMapping("/update/following")
+//    public Result<String> updateFollowingInfo() {
+//
+//    }
+//
+//    /**
+//     * 插入新的开发者
+//     *
+//     * @return
+//     */
+//    @PostMapping("/insert/developer")
+//    public Result<String> insertDeveloperInfo() {
+//
+//    }
 
 
 }

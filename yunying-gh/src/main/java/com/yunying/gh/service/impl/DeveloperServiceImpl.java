@@ -79,12 +79,12 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
      */
     @Override
     public void calculateTalentRank(int devId) {
-        Developer developer = developerMapper.selectById(devId);
-        // 1. 计算仓库贡献得分
-        List<Contribution> contributions = contributionMapper.selectByDevId(devId);
-
-        List<Repository> repositories = contributionMapper.selectRepoByDevId(devId);
-
+//        Developer developer = developerMapper.selectById(devId);
+//        // 1. 计算仓库贡献得分
+//        List<Contribution> contributions = contributionMapper.selectByDevId(devId);
+//
+//        List<Repository> repositories = contributionMapper.selectRepoByDevId(devId);
+//
 
     }
 
