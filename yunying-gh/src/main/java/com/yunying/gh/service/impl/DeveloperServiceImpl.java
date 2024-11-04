@@ -50,7 +50,7 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
     /**
      * 计算开发者的粉丝分数
      *
-     * @param dev_id@throws NoSuchFieldException
+     * @param devId
      * @throws IllegalAccessException
      */
     @Override
