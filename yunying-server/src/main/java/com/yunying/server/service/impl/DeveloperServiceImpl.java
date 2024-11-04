@@ -82,7 +82,7 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
     }
 
     @Override
-    public Map<String, Object> selectContribution(Integer devId) {
+    public List<Map<String, Object>> selectContribution(Integer devId) {
         return developerMapper.selectContribution(devId);
     }
 

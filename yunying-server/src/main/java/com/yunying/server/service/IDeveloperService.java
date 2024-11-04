@@ -85,5 +85,5 @@ public interface IDeveloperService extends IService<Developer> {
      * @param devId
      * @return
      */
-    Map<String, Object> selectContribution(@Param("devId") Integer devId);
+    List<Map<String, Object>> selectContribution(@Param("devId") Integer devId);
 }

@@ -126,8 +126,8 @@ public class DeveloperController {
      * @return
      */
     @GetMapping("select/contribution/{dev_id}")
-    public Result<Map<String, Object>> selectContribution(@PathVariable("dev_id") Integer dev_id) {
-        Map<String, Object> contribution = developerService.selectContribution(dev_id);
+    public Result<List<Map<String, Object>>> selectContribution(@PathVariable("dev_id") Integer dev_id) {
+        List<Map<String, Object>> contribution = developerService.selectContribution(dev_id);
         return Result.success(contribution);
     }
 

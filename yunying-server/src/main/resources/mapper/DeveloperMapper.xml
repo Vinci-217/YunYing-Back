@@ -48,7 +48,11 @@
         FROM contribution;
     </select>
     <select id="selectContribution" resultType="java.util.Map" parameterType="java.lang.Integer">
-        SELECT
+        SELECT *
+        FROM repository
+        WHERE repo_id IN (SELECT repo_id
+                          FROM contribution
+                          WHERE dev_id = #{devId})
     </select>
 
 

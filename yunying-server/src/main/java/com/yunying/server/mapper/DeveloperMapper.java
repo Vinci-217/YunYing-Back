@@ -33,5 +33,6 @@ public interface DeveloperMapper extends BaseMapper<Developer> {
 
     List<String> selectField();
 
-    Map<String, Object> selectContribution(Integer devId);
+    @MapKey("repo_id")
+    List<Map<String, Object>> selectContribution(Integer devId);
 }
