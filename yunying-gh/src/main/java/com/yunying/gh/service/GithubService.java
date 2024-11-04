@@ -162,21 +162,23 @@ public class GithubService {
                 GHRepository repository = event.getRepository();
                 Integer repoId = Math.toIntExact(repository.getId()); // 仓库 ID
                 repositoryContributions.putIfAbsent(repoId, new HashMap<>());
+
+                // 获取或创建贡献计数
+                ContributionCount contributionCount = repositoryContributions.get(repoId)
+                        .computeIfAbsent(contributorId, id -> new ContributionCount());
+
+                // 根据事件类型更新贡献计数
+                switch (eventType) {
+                    case "PushEvent" -> contributionCount.commitCount++;
+                    case "PullRequestEvent" -> contributionCount.prCount++;
+                    case "IssuesEvent" -> contributionCount.issueCount++;
+                    default -> {
+                    }
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            // 获取或创建贡献计数
-            ContributionCount contributionCount = repositoryContributions.get(repoId)
-                    .computeIfAbsent(contributorId, id -> new ContributionCount());
 
-            // 根据事件类型更新贡献计数
-            switch (eventType) {
-                case "PushEvent" -> contributionCount.commitCount++;
-                case "PullRequestEvent" -> contributionCount.prCount++;
-                case "IssuesEvent" -> contributionCount.issueCount++;
-                default -> {
-                }
-            }
         });
 
         // 输出结果
