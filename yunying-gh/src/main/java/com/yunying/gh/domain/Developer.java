@@ -2,16 +2,20 @@ package com.yunying.gh.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
+
 import java.time.LocalDateTime;
+
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author vinci
@@ -99,7 +103,7 @@ public class Developer implements Serializable {
     /**
      * 【推测字段】国家/地区可信度
      */
-    private String nationConf;
+    private Double nationConf;
 
     /**
      * 【生成字段】开发者简介

@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author vinci
@@ -32,4 +32,6 @@ public interface DeveloperMapper extends BaseMapper<Developer> {
     List<String> selectNation();
 
     List<String> selectField();
+
+    Map<String, Object> selectContribution(Integer devId);
 }

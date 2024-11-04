@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author vinci
@@ -28,7 +28,7 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
     @Autowired
     private DeveloperMapper developerMapper;
 
-    @CircuitBreaker(name = "query",fallbackMethod = "fallbackMethod")
+    @CircuitBreaker(name = "query", fallbackMethod = "fallbackMethod")
     @RateLimiter(name = "query")
     @Override
     public List<Map<String, Object>> selectByField(String field, Integer page, Integer pageSize) {
@@ -37,7 +37,7 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
         return developerMapper.selectByField(field, limit, offset);
     }
 
-    @CircuitBreaker(name = "query",fallbackMethod = "fallbackMethod")
+    @CircuitBreaker(name = "query", fallbackMethod = "fallbackMethod")
     @RateLimiter(name = "query")
     @Override
     public List<Map<String, Object>> selectByNation(String nation, Integer page, Integer pageSize) {
@@ -46,7 +46,7 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
         return developerMapper.selectByNation(nation, limit, offset);
     }
 
-    @CircuitBreaker(name = "query",fallbackMethod = "fallbackMethod")
+    @CircuitBreaker(name = "query", fallbackMethod = "fallbackMethod")
     @RateLimiter(name = "query")
     @Override
     public List<Map<String, Object>> selectByFieldAndNation(String field, String nation, Integer page, Integer pageSize) {
@@ -55,7 +55,7 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
         return developerMapper.selectByFieldAndNation(field, nation, limit, offset);
     }
 
-    @CircuitBreaker(name = "query",fallbackMethod = "fallbackMethodList")
+    @CircuitBreaker(name = "query", fallbackMethod = "fallbackMethodList")
     @RateLimiter(name = "query")
     @Override
     public List<Map<String, Object>> selectByPage(Integer page, Integer pageSize) {
@@ -81,7 +81,12 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
         return developerMapper.selectById(devId);
     }
 
-    public List<Map<String,Object>> fallbackMethodList(Throwable throwable) {
+    @Override
+    public Map<String, Object> selectContribution(Integer devId) {
+        return developerMapper.selectContribution(devId);
+    }
+
+    public List<Map<String, Object>> fallbackMethodList(Throwable throwable) {
         return Collections.emptyList();
     }
 

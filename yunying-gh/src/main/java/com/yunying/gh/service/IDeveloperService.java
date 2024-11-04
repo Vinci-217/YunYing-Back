@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author vinci
@@ -15,13 +15,24 @@ public interface IDeveloperService extends IService<Developer> {
 
     /**
      * 计算开发者的粉丝分数
-     * @param developer
+     *
+     * @param dev_id
      */
-    void calculateFollowersScore(Developer developer) throws NoSuchFieldException, IllegalAccessException;
+    void calculateFollowersScore(int dev_id) throws NoSuchFieldException, IllegalAccessException;
 
     /**
      * 计算开发者的技能排名
+     *
      * @param
+     * @param devId
      */
-    void calculateTalentRank();
+    void calculateTalentRank(int devId);
+
+
+    /**
+     * 预测开发者的国家
+     *
+     * @param devId
+     */
+    void propagateNation(int devId);
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author vinci
@@ -32,7 +32,14 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionMapper, Con
     private static final double WEIGHT_ISSUE = 0.2;
 
 
-    // 计算贡献得分
+    /**
+     * 计算贡献度得分
+     *
+     * @param developer
+     * @param repository
+     * @throws NoSuchFieldException
+     * @throws IllegalAccessException
+     */
     @Override
     public void calculateContributionScore(Developer developer, Repository repository) throws NoSuchFieldException, IllegalAccessException {
 
@@ -47,9 +54,9 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionMapper, Con
         Integer prCount = contribution.getPrCount();
         Integer issueCount = contribution.getIssueCount();
 
-        double normalizedCommitCount = NormalizeUtil.normalizeValue(commitCount,contributionMapper,"commit_count");
-        double normalizedPrCount = NormalizeUtil.normalizeValue(prCount,contributionMapper,"pr_count");
-        double normalizedIssueCount = NormalizeUtil.normalizeValue(issueCount,contributionMapper,"issue_count");
+        double normalizedCommitCount = NormalizeUtil.normalizeValue(commitCount, contributionMapper, "commit_count");
+        double normalizedPrCount = NormalizeUtil.normalizeValue(prCount, contributionMapper, "pr_count");
+        double normalizedIssueCount = NormalizeUtil.normalizeValue(issueCount, contributionMapper, "issue_count");
 
         double originalScore = normalizedCommitCount * WEIGHT_COMMIT
                 + normalizedPrCount * WEIGHT_PR

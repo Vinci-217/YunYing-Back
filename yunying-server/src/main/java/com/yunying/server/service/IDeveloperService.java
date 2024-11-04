@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author vinci
@@ -19,6 +19,7 @@ public interface IDeveloperService extends IService<Developer> {
 
     /**
      * 根据领域查询开发者信息
+     *
      * @param field
      * @param page
      * @param pageSize
@@ -28,6 +29,7 @@ public interface IDeveloperService extends IService<Developer> {
 
     /**
      * 根据领域查询开发者信息
+     *
      * @param nation
      * @param page
      * @param pageSize
@@ -37,6 +39,7 @@ public interface IDeveloperService extends IService<Developer> {
 
     /**
      * 根据领域和民族查询开发者信息
+     *
      * @param field
      * @param nation
      * @param page
@@ -47,6 +50,7 @@ public interface IDeveloperService extends IService<Developer> {
 
     /**
      * 查询所有开发者信息
+     *
      * @param page
      * @param pageSize
      * @return
@@ -55,20 +59,31 @@ public interface IDeveloperService extends IService<Developer> {
 
     /**
      * 查询所有国家
+     *
      * @return
      */
     List<String> selectNation();
 
     /**
      * 查询所有领域
+     *
      * @return
      */
     List<String> selectField();
 
     /**
      * 根据开发者id查询开发者信息
+     *
      * @param devId
      * @return
      */
     Developer selectByDevId(@Param("devId") Integer devId);
+
+    /**
+     * 根据开发者id查询开发者贡献信息
+     *
+     * @param devId
+     * @return
+     */
+    Map<String, Object> selectContribution(@Param("devId") Integer devId);
 }
