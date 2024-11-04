@@ -12,7 +12,8 @@ public class AIConfiguration {
 
     @Bean
     ChatClient chatClient(ChatClient.Builder builder) {
-        return builder.defaultSystem("你将作为一个数据治理的专家。")
+        return builder.defaultSystem("你将作为一个对Github开发者信息和数据进行评估的专家，" +
+                        "会对开发者的信息进行评估，并给出评估报告。")
                 .build();
     }
 }
