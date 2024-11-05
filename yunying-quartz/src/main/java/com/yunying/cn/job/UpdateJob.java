@@ -18,11 +18,7 @@ public class UpdateJob implements JobService {
     @Override
     public void run(String params) {
         log.info("\n ======== \n update-job-params:{} \n ========", params);
-        ghClient.updateRepoInfo();
         ghClient.updateDeveloperInfo();
-        ghClient.updateContributionInfo();
-        ghClient.updateFollowerInfo();
-        ghClient.updateFollowingInfo();
 
     }
 }
