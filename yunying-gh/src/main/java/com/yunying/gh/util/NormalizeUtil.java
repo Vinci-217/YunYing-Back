@@ -12,9 +12,9 @@ public class NormalizeUtil {
     // 归一化方法
     public static <T> double normalizeValue(double value, BaseMapper<T> mapper, String columnName) throws NoSuchFieldException, IllegalAccessException {
 
-        int max = selectMaxValue(mapper, columnName);
-        int min = selectMinValue(mapper, columnName);
-        if (max == min){
+        int max = 100000;
+        int min = 1;
+        if (max == min) {
             throw new CommonException("最大值和最小值不能相同");
         }
         return (value - min) / (max - min); // 将值归一化到0-1范围
@@ -29,7 +29,7 @@ public class NormalizeUtil {
         // 执行查询，结果返回一个Map
         Map<String, Object> result = mapper.selectMaps(queryWrapper).stream().findFirst().orElse(null);
 
-        if(result == null || result.get("max_value") == null) {
+        if (result == null || result.get("max_value") == null) {
             throw new CommonException("查询最大值失败");
         }
         return ((Number) result.get("max_value")).intValue();
@@ -43,12 +43,11 @@ public class NormalizeUtil {
         // 执行查询，结果返回一个Map
         Map<String, Object> result = mapper.selectMaps(queryWrapper).stream().findFirst().orElse(null);
 
-        if(result == null || result.get("min_value") == null) {
+        if (result == null || result.get("min_value") == null) {
             throw new CommonException("查询最小值失败");
         }
         return ((Number) result.get("min_value")).intValue();
     }
-
 
 
 }

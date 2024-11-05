@@ -2,6 +2,7 @@ package com.yunying.gh.service;
 
 import com.yunying.gh.domain.Developer;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -16,9 +17,10 @@ public interface IDeveloperService extends IService<Developer> {
     /**
      * 计算开发者的粉丝分数
      *
-     * @param dev_id
+     * @param devLogin
+     * @return
      */
-    void calculateFollowersScore(int dev_id) throws NoSuchFieldException, IllegalAccessException;
+    boolean calculateFollowersScore(String devLogin) throws NoSuchFieldException, IllegalAccessException;
 
     /**
      * 计算开发者的技能排名
@@ -32,7 +34,10 @@ public interface IDeveloperService extends IService<Developer> {
     /**
      * 预测开发者的国家
      *
-     * @param devId
+     * @param devLogin
+     * @return
      */
-    void propagateNation(int devId);
+    boolean propagateNation(String devLogin);
+
+
 }

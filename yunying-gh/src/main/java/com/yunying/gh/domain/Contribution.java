@@ -66,11 +66,6 @@ public class Contribution implements Serializable {
     private String field;
 
     /**
-     * 【推测字段】领域可信度
-     */
-    private Double fieldConf;
-
-    /**
      * commit的数量
      */
     private Integer commitCount;

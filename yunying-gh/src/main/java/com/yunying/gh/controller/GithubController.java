@@ -2,8 +2,10 @@ package com.yunying.gh.controller;
 
 import com.yunying.common.utils.Result;
 import com.yunying.gh.service.GithubService;
+import com.yunying.gh.service.IDeveloperService;
 import org.kohsuke.github.GHRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -14,6 +16,9 @@ public class GithubController {
 
     @Autowired
     private GithubService gitHubService;
+
+    @Autowired
+    private IDeveloperService developerService;
 
     // 获取仓库信息的 API
     @GetMapping("/repo")
@@ -57,14 +62,32 @@ public class GithubController {
 //        return Result.success("success");
 //    }
 
+    /**
+     * 插入新的开发者信息的 API
+     *
+     * @param devLogin
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/insert/developer")
-    public int insertDeveloperInfo(@RequestParam("devLogin") String devLogin) throws IOException {
+    @Transactional
+    public int insertDeveloperInfo(@RequestParam("devLogin") String devLogin) throws IOException, NoSuchFieldException, IllegalAccessException {
         boolean user = gitHubService.insertUser(devLogin);
-        boolean repo = gitHubService.insertRepository(devLogin);
-        boolean contribution = gitHubService.insertContribution(devLogin);
-        if (user && repo && contribution) {
-            return 1;
-        }
+
+//        gitHubService.insertFollowers(devLogin);
+//        gitHubService.insertFollowing(devLogin);
+
+//        // 计算开发者的粉丝得分
+//        developerService.calculateFollowersScore(devLogin);
+//        // 预测开发者的国家
+//        developerService.propagateNation(devLogin);
+
+
+//        boolean repo = gitHubService.insertRepository(devLogin);
+//        boolean contribution = gitHubService.insertContribution(devLogin);
+//        if (user && repo && contribution) {
+//            return 1;
+//        }
         return 0;
     }
 //

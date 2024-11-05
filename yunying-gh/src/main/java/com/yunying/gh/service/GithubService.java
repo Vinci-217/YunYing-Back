@@ -2,22 +2,16 @@ package com.yunying.gh.service;
 
 import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
-import com.yunying.gh.domain.Contribution;
-import com.yunying.gh.domain.Developer;
-import com.yunying.gh.domain.Repository;
-import com.yunying.gh.mapper.ContributionMapper;
-import com.yunying.gh.mapper.DeveloperMapper;
-import com.yunying.gh.mapper.RepositoryMapper;
-import org.kohsuke.github.GHIssueState;
-import org.kohsuke.github.GHRepository;
-import org.kohsuke.github.GHUser;
-import org.kohsuke.github.GitHub;
+import com.yunying.gh.domain.*;
+import com.yunying.gh.mapper.*;
+import org.kohsuke.github.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -34,6 +28,12 @@ public class GithubService {
 
     @Autowired
     private ContributionMapper contributionMapper;
+
+    @Autowired
+    private FollowerMapper followerMapper;
+
+    @Autowired
+    private FollowingMapper followingMapper;
 
     // 获取仓库信息
     public GHRepository getRepositoryInfo(String owner, String repoName) throws IOException, IOException {
@@ -82,6 +82,7 @@ public class GithubService {
         developer.setBio(bio);
         developer.setFollowers(followers);
         developer.setFollowing(following);
+        System.out.println("insert user success");
 
         return developerMapper.insert(developer) == 1;
 
@@ -98,7 +99,8 @@ public class GithubService {
     @Transactional
     public boolean insertRepository(String owner) throws IOException {
         GHUser user = githubClient.getUser(owner);
-        user.listRepositories().forEach(repository -> {
+        Map<String, GHRepository> repositories = user.getRepositories();
+        for (GHRepository repository : repositories.values()) {
             Repository repo = new Repository();
             Integer repoId = Math.toIntExact(repository.getId());
             String repoName = repository.getName();
@@ -129,12 +131,11 @@ public class GithubService {
                 if (insert != 1) {
                     throw new RuntimeException("insert repository failed");
                 }
-
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-        });
+        }
+        System.out.println("insert repository success");
         return true;
     }
 
@@ -150,16 +151,20 @@ public class GithubService {
         Integer devId = Math.toIntExact(user.getId());
         Map<Integer, Map<String, ContributionCount>> repositoryContributions = new HashMap<>();
 
-        user.listEvents().forEach(event -> {
+        List<GHEventInfo> eventInfoList = user.listEvents().toList();
+        System.out.println("事件列表大小: " + eventInfoList.size());
+
+        for (GHEventInfo eventInfo : eventInfoList) {
             // 获取事件类型
-            String eventType = String.valueOf(event.getType());
+            String eventType = String.valueOf(eventInfo.getType());
+            System.out.println("事件类型: " + eventType);
 
             // 获取贡献者 ID
             String contributorId = String.valueOf(user.getId()); // 用户 ID
 
             // 获取相关的仓库
             try {
-                GHRepository repository = event.getRepository();
+                GHRepository repository = eventInfo.getRepository();
                 Integer repoId = Math.toIntExact(repository.getId()); // 仓库 ID
                 repositoryContributions.putIfAbsent(repoId, new HashMap<>());
 
@@ -169,17 +174,23 @@ public class GithubService {
 
                 // 根据事件类型更新贡献计数
                 switch (eventType) {
-                    case "PushEvent" -> contributionCount.commitCount++;
-                    case "PullRequestEvent" -> contributionCount.prCount++;
-                    case "IssuesEvent" -> contributionCount.issueCount++;
+                    case "PUSH" -> contributionCount.commitCount++;
+                    case "PULL_REQUEST" -> contributionCount.prCount++;
+                    case "ISSUES" -> contributionCount.issueCount++;
                     default -> {
                     }
                 }
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                if (e.getMessage().contains("404")) {
+                    System.out.println("仓库不存在或已删除，跳过该事件");
+                    continue; // 跳过当前事件
+                } else {
+                    // 如果是其他IOException，则重新抛出
+                    throw new RuntimeException("无法处理仓库信息", e);
+                }
             }
+        }
 
-        });
 
         // 输出结果
         repositoryContributions.forEach((repoId, contributions) -> {
@@ -211,5 +222,95 @@ public class GithubService {
         int commitCount = 0;
         int prCount = 0;
         int issueCount = 0;
+    }
+
+    /**
+     * 插入用户的所有粉丝
+     *
+     * @param owner
+     * @return
+     * @throws IOException
+     */
+    public boolean insertFollowers(String owner) throws IOException {
+        GHUser user = githubClient.getUser(owner);
+        user.getFollowers().forEach(follower -> {
+            try {
+                Follower followerEntity = new Follower();
+
+                Integer devId = Math.toIntExact(follower.getId());
+                String devLogin = follower.getLogin();
+                String devName = follower.getName();
+                if (devName == null) {
+                    devName = devLogin;
+                }
+                String avatar = follower.getAvatarUrl();
+                Integer followingId = Math.toIntExact(user.getId());
+                followerEntity.setDevId(devId);
+                followerEntity.setDevLogin(devLogin);
+                followerEntity.setDevName(devName);
+                followerEntity.setAvatar(avatar);
+                followerEntity.setFollowingId(followingId);
+
+                System.out.println("粉丝 ID: " + devId);
+                System.out.println("粉丝登录名: " + devLogin);
+                System.out.println("粉丝昵称: " + devName);
+                System.out.println("粉丝头像: " + avatar);
+                System.out.println("关注者 ID: " + followingId);
+
+                followerMapper.insert(followerEntity);
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+        System.out.println("插入粉丝成功");
+        return true;
+    }
+
+    /**
+     * 插入用户关注的用户
+     *
+     * @param owner
+     * @return
+     * @throws IOException
+     */
+    public boolean insertFollowing(String owner) throws IOException {
+        GHUser user = githubClient.getUser(owner);
+        user.getFollows().forEach(following -> {
+
+            try {
+                Following followingEntity = new Following();
+
+                Integer devId = Math.toIntExact(following.getId());
+                String devLogin = following.getLogin();
+                String devName = following.getName();
+                if (devName == null) {
+                    devName = devLogin;
+                }
+                String avatar = following.getAvatarUrl();
+                Integer followerId = Math.toIntExact(user.getId());
+                followingEntity.setDevId(devId);
+                followingEntity.setDevLogin(devLogin);
+                followingEntity.setDevName(devName);
+                followingEntity.setAvatar(avatar);
+                followingEntity.setFollowerId(followerId);
+
+                System.out.println("关注者 ID: " + devId);
+                System.out.println("关注者登录名: " + devLogin);
+                System.out.println("关注者昵称: " + devName);
+                System.out.println("关注者头像: " + avatar);
+                System.out.println("关注者 ID: " + followerId);
+
+                followingMapper.insert(followingEntity);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+
+        System.out.println("插入关注成功");
+        return true;
     }
 }
