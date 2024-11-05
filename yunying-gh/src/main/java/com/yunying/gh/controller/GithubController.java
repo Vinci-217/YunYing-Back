@@ -51,10 +51,21 @@ public class GithubController {
         }
     }
 
-    @GetMapping("/user/repos/{username}")
-    public Result<String> getUserRepos(@PathVariable String username) throws IOException {
-        gitHubService.insertContribution(username);
-        return Result.success("success");
+//    @GetMapping("/user/repos/{username}")
+//    public Result<String> getUserRepos(@PathVariable String username) throws IOException {
+//        gitHubService.insertContribution(username);
+//        return Result.success("success");
+//    }
+
+    @PostMapping("/insert/developer")
+    public int insertDeveloperInfo(@RequestParam("devLogin") String devLogin) throws IOException {
+        boolean user = gitHubService.insertUser(devLogin);
+        boolean repo = gitHubService.insertRepository(devLogin);
+        boolean contribution = gitHubService.insertContribution(devLogin);
+        if (user && repo && contribution) {
+            return 1;
+        }
+        return 0;
     }
 //
 //    /**

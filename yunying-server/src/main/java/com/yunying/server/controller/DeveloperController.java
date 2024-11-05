@@ -6,7 +6,9 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yunying.common.utils.Result;
 import com.yunying.server.domain.Developer;
+import com.yunying.server.service.GhClient;
 import com.yunying.server.service.IDeveloperService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +30,10 @@ public class DeveloperController {
 
     @Autowired
     private IDeveloperService developerService;
+
+
+    @Autowired
+    private GhClient ghClient;
 
     /**
      * 根据领域和国家查询开发者列表
@@ -129,6 +135,15 @@ public class DeveloperController {
     public Result<List<Map<String, Object>>> selectContribution(@PathVariable("dev_id") Integer dev_id) {
         List<Map<String, Object>> contribution = developerService.selectContribution(dev_id);
         return Result.success(contribution);
+    }
+
+    @PostMapping("/insert/{devLogin}")
+    public Result<Integer> insert(@PathVariable("devLogin") String devLogin) {
+        if (ghClient.insertDeveloperInfo(devLogin) == 1) {
+            return Result.success();
+        }
+        return Result.error("插入失败");
+
     }
 
 
