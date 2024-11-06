@@ -1,7 +1,7 @@
 package com.yunying.gh.service;
 
-import cn.hutool.json.JSON;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yunying.gh.domain.*;
 import com.yunying.gh.mapper.*;
 import org.kohsuke.github.*;
@@ -35,6 +35,13 @@ public class GithubService {
     @Autowired
     private FollowingMapper followingMapper;
 
+    @Autowired
+    private IRepositoryService repositoryService;
+
+    @Autowired
+    private IContributionService contributionService;
+
+
     // 获取仓库信息
     public GHRepository getRepositoryInfo(String owner, String repoName) throws IOException, IOException {
         return githubClient.getRepository(owner + "/" + repoName);
@@ -58,7 +65,7 @@ public class GithubService {
      * @return
      * @throws IOException
      */
-    public boolean insertUser(String username) throws IOException {
+    public boolean insertOrUpdateDeveloper(String username) throws IOException {
         GHUser user = githubClient.getUser(username);
         Developer developer = new Developer();
         Integer devId = Math.toIntExact(user.getId());
@@ -84,7 +91,7 @@ public class GithubService {
         developer.setFollowing(following);
         System.out.println("insert user success");
 
-        return developerMapper.insert(developer) == 1;
+        return developerMapper.insertOrUpdate(developer);
 
     }
 
@@ -97,7 +104,7 @@ public class GithubService {
      * @throws IOException
      */
     @Transactional
-    public boolean insertRepository(String owner) throws IOException {
+    public boolean insertOrUpdateRepository(String owner) throws IOException {
         GHUser user = githubClient.getUser(owner);
         Map<String, GHRepository> repositories = user.getRepositories();
         for (GHRepository repository : repositories.values()) {
@@ -127,11 +134,14 @@ public class GithubService {
                 repo.setPrCount(prCount);
                 repo.setStarCount(starCount);
                 repo.setIssueCount(issueCount);
-                int insert = repositoryMapper.insert(repo);
-                if (insert != 1) {
+                boolean insert = repositoryMapper.insertOrUpdate(repo);
+
+                repositoryService.calculateImportanceScore(repo);
+
+                if (!insert) {
                     throw new RuntimeException("insert repository failed");
                 }
-            } catch (IOException e) {
+            } catch (IOException | NoSuchFieldException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -146,7 +156,7 @@ public class GithubService {
      * @return
      * @throws IOException
      */
-    public boolean insertContribution(String owner) throws IOException {
+    public boolean insertOrUpdateContribution(String owner) throws IOException {
         GHUser user = githubClient.getUser(owner);
         Integer devId = Math.toIntExact(user.getId());
         Map<Integer, Map<String, ContributionCount>> repositoryContributions = new HashMap<>();
@@ -157,7 +167,7 @@ public class GithubService {
         for (GHEventInfo eventInfo : eventInfoList) {
             // 获取事件类型
             String eventType = String.valueOf(eventInfo.getType());
-            System.out.println("事件类型: " + eventType);
+//            System.out.println("事件类型: " + eventType);
 
             // 获取贡献者 ID
             String contributorId = String.valueOf(user.getId()); // 用户 ID
@@ -209,7 +219,14 @@ public class GithubService {
                 contribution.setIssueCount(count.issueCount);
 
                 // 插入数据库
-                contributionMapper.insert(contribution);
+                contributionMapper.insertOrUpdate(contribution);
+
+                try {
+                    contributionService.calculateContributionScore(contribution);
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    throw new RuntimeException("贡献度插入失败");
+                }
+
 
             });
         });
@@ -231,7 +248,7 @@ public class GithubService {
      * @return
      * @throws IOException
      */
-    public boolean insertFollowers(String owner) throws IOException {
+    public boolean insertOrUpdateFollower(String owner) throws IOException {
         GHUser user = githubClient.getUser(owner);
         user.getFollowers().forEach(follower -> {
             try {
@@ -255,14 +272,24 @@ public class GithubService {
                 followerEntity.setLocation(location);
 
 
-                System.out.println("粉丝 ID: " + devId);
-                System.out.println("粉丝登录名: " + devLogin);
-                System.out.println("粉丝昵称: " + devName);
-                System.out.println("粉丝头像: " + avatar);
-                System.out.println("关注者 ID: " + followingId);
+//                System.out.println("粉丝 ID: " + devId);
+//                System.out.println("粉丝登录名: " + devLogin);
+//                System.out.println("粉丝昵称: " + devName);
+//                System.out.println("粉丝头像: " + avatar);
+//                System.out.println("关注者 ID: " + followingId);
 
-                followerMapper.insert(followerEntity);
+                // 根据 dev_id 和 following_id 查询是否已经存在相同的记录
+                QueryWrapper<Follower> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("dev_id", devId)
+                        .eq("following_id", followingId);
 
+                Follower existingFollower = followerMapper.selectOne(queryWrapper);
+
+                if (existingFollower != null) {
+                    System.out.println("该粉丝已经存在，跳过该粉丝");
+                } else {
+                    followerMapper.insert(followerEntity);
+                }
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -280,7 +307,7 @@ public class GithubService {
      * @return
      * @throws IOException
      */
-    public boolean insertFollowing(String owner) throws IOException {
+    public boolean insertOrUpdateFollowing(String owner) throws IOException {
         GHUser user = githubClient.getUser(owner);
         user.getFollows().forEach(following -> {
 
@@ -304,13 +331,25 @@ public class GithubService {
                 followingEntity.setFollowerId(followerId);
                 followingEntity.setLocation(location);
 
-                System.out.println("关注者 ID: " + devId);
-                System.out.println("关注者登录名: " + devLogin);
-                System.out.println("关注者昵称: " + devName);
-                System.out.println("关注者头像: " + avatar);
-                System.out.println("关注者 ID: " + followerId);
+//                System.out.println("关注者 ID: " + devId);
+//                System.out.println("关注者登录名: " + devLogin);
+//                System.out.println("关注者昵称: " + devName);
+//                System.out.println("关注者头像: " + avatar);
+//                System.out.println("关注者 ID: " + followerId);
 
-                followingMapper.insert(followingEntity);
+                // 根据 dev_id 和 follower_id 查询是否已经存在相同的记录
+                QueryWrapper<Following> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("dev_id", devId)
+                        .eq("follower_id", followerId);
+
+                Following existingFollowing = followingMapper.selectOne(queryWrapper);
+
+                if (existingFollowing != null) {
+                    System.out.println("该关注者已经存在，跳过该关注者");
+                } else {
+                    followingMapper.insert(followingEntity);
+                }
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

@@ -2,8 +2,6 @@ package com.yunying.gh.service;
 
 import com.yunying.gh.domain.Contribution;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.yunying.gh.domain.Developer;
-import com.yunying.gh.domain.Repository;
 
 /**
  * <p>
@@ -18,8 +16,10 @@ public interface IContributionService extends IService<Contribution> {
 
     /**
      * 计算贡献度分数
+     *
      * @param
+     * @param contribution
      */
-    void calculateContributionScore(Developer developer, Repository repository) throws NoSuchFieldException, IllegalAccessException;
+    void calculateContributionScore(Contribution contribution) throws NoSuchFieldException, IllegalAccessException;
 
 }

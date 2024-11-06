@@ -54,6 +54,11 @@
                           FROM contribution
                           WHERE dev_id = #{devId})
     </select>
+    <select id="selectLanguageByDevId" resultType="java.lang.String">
+        SELECT `language`
+        FROM `repository`
+        WHERE owner_id = #{devId}
+    </select>
 
 
 </mapper>

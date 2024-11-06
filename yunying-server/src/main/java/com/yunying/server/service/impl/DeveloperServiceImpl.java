@@ -1,5 +1,6 @@
 package com.yunying.server.service.impl;
 
+import cn.hutool.json.JSONUtil;
 import com.yunying.server.domain.Developer;
 import com.yunying.server.mapper.DeveloperMapper;
 import com.yunying.server.service.IDeveloperService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,6 +86,26 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
     @Override
     public List<Map<String, Object>> selectContribution(Integer devId) {
         return developerMapper.selectContribution(devId);
+    }
+
+    @Override
+    public Map<String, Integer> selectLanguageByDevId(Integer devId) {
+        // 获取所有的 JSON 字符串
+        List<String> languagesJson = developerMapper.selectLanguageByDevId(devId);
+
+        Map<String, Integer> languageStats = new HashMap<>();
+
+        // 解析每个 JSON 字符串并统计语言数量
+        for (String languageJson : languagesJson) {
+            // 使用 Hutool 的 JSONUtil 将 JSON 字符串解析成 Map
+            Map<String, Integer> languageMap = JSONUtil.toBean(languageJson, Map.class);
+
+            // 遍历 map，累加统计
+            for (Map.Entry<String, Integer> entry : languageMap.entrySet()) {
+                languageStats.merge(entry.getKey(), entry.getValue(), Integer::sum);
+            }
+        }
+        return languageStats;
     }
 
     public List<Map<String, Object>> fallbackMethodList(Throwable throwable) {

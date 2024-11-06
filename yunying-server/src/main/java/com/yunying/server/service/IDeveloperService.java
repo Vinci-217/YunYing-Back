@@ -86,4 +86,12 @@ public interface IDeveloperService extends IService<Developer> {
      * @return
      */
     List<Map<String, Object>> selectContribution(@Param("devId") Integer devId);
+
+    /**
+     * 根据开发者id查询开发者语言信息
+     *
+     * @param devId
+     * @return
+     */
+    Map<String, Integer> selectLanguageByDevId(@Param("devId") Integer devId);
 }

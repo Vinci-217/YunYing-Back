@@ -12,6 +12,18 @@ spring:
     password: ${yunying.datasource.password}
     driver-class-name: ${yunying.datasource.driver-class-name}
 
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  rabbitmq:
+    host: ${yunying.rabbitmq.host} # 你的虚拟机IP
+    port: ${yunying.rabbitmq.port} # 端口
+    virtual-host: ${yunying.rabbitmq.virtual-host} # 虚拟主机
+    username: ${yunying.rabbitmq.username} # 用户名
+    password: ${yunying.rabbitmq.password} # 密码
+
 
   cloud:
     zookeeper:

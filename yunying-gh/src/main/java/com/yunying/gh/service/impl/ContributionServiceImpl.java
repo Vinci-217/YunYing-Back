@@ -41,13 +41,8 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionMapper, Con
      * @throws IllegalAccessException
      */
     @Override
-    public void calculateContributionScore(Developer developer, Repository repository) throws NoSuchFieldException, IllegalAccessException {
+    public void calculateContributionScore(Contribution contribution) throws NoSuchFieldException, IllegalAccessException {
 
-        int devId = developer.getDevId();
-        int repoId = repository.getRepoId();
-
-
-        Contribution contribution = contributionMapper.selectByDevIdAndRepoId(devId, repoId);
 
         // 原始贡献得分
         Integer commitCount = contribution.getCommitCount();

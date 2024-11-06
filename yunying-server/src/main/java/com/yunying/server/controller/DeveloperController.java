@@ -6,15 +6,26 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yunying.common.utils.Result;
 import com.yunying.server.domain.Developer;
+import com.yunying.server.listener.AddStatusListener;
 import com.yunying.server.service.GhClient;
 import com.yunying.server.service.IDeveloperService;
-import lombok.RequiredArgsConstructor;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import org.redisson.api.RBucket;
+import org.redisson.api.RedissonClient;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
 
 /**
  * <p>
@@ -34,6 +45,20 @@ public class DeveloperController {
 
     @Autowired
     private GhClient ghClient;
+
+    @Autowired
+    private AddStatusListener addStatusListener;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+
+    @Autowired
+    private RedissonClient redissonClient;
+
+    private static final ConcurrentHashMap<String, CompletableFuture<String>> messageFutureMap = new ConcurrentHashMap<>();
+
+    private static final ConcurrentHashMap<String, CompletableFuture<String>> messageReceivedMap = new ConcurrentHashMap<>();
 
     /**
      * 根据领域和国家查询开发者列表
@@ -138,13 +163,85 @@ public class DeveloperController {
     }
 
     @PostMapping("/insert/{devLogin}")
-    public Result<Integer> insert(@PathVariable("devLogin") String devLogin) {
-        if (ghClient.insertDeveloperInfo(devLogin) == 1) {
-            return Result.success();
+    @RateLimiter(name = "myServiceRateLimiter", fallbackMethod = "rateLimiterFallback")
+    public Result<String> insert(@PathVariable("devLogin") String devLogin) throws ExecutionException, InterruptedException, TimeoutException {
+
+        RBucket<String> bucket = redissonClient.getBucket("work");
+        if (bucket.get() != null && bucket.get().equals("true")) {
+            return Result.error("服务器繁忙，请稍后重试");
         }
+        // 发送插入请求
+        rabbitTemplate.convertAndSend("amq.direct", "byekey", devLogin);
+
+        String message = waitForNotification(devLogin);
+
+        if (message != null && message.equals("success")) {
+            return Result.success("插入成功");
+        }
+
+
         return Result.error("插入失败");
 
     }
 
+    private String waitForNotification(String devLogin) throws InterruptedException, ExecutionException, TimeoutException {
+        // 创建一个新的 CompletableFuture 用来等待消息
+        CompletableFuture<String> future = new CompletableFuture<>();
 
+        // 将 future 存储到 messageFutureMap 中，以 devLogin 作为键
+        messageFutureMap.put(devLogin, future);
+
+        System.out.println("等待通知，devLogin=" + devLogin);
+
+        // 阻塞当前线程，等待最大30秒，直到 CompletableFuture 完成
+        return future.get(30, TimeUnit.SECONDS);  // 可以根据实际需求调整等待时间
+    }
+
+    @RabbitListener(bindings = @QueueBinding(
+            value = @Queue(name = "hello.queue", durable = "true"),
+            exchange = @Exchange(name = "amq.direct"),
+            key = "hellokey"
+    ))
+    public void handlePaySuccessMessage(String devLogin) {
+
+        System.out.println("收到通知，devLogin=" + devLogin);
+        // 获取对应 devLogin 的 CompletableFuture 对象
+        CompletableFuture<String> future = messageFutureMap.get(devLogin);
+
+        if (future != null) {
+            // 完成通知
+            future.complete("success");
+        } else {
+            System.out.println("未找到对应的任务，devLogin=" + devLogin);
+        }
+    }
+
+    // 限流回退方法
+    public Result<String> rateLimiterFallback(Throwable t) {
+        return Result.error("请求次数过多，请稍后重试");
+    }
+
+    /**
+     * 根据dev_id查询语言分布
+     *
+     * @param devId
+     * @return
+     */
+    @GetMapping("/select/language/{devId}")
+    public Result<Map<String, Integer>> selectLanguage(@PathVariable("devId") Integer devId) {
+
+        Map<String, Integer> language = developerService.selectLanguageByDevId(devId);
+        return Result.success(language);
+    }
+
+    @GetMapping("/query/{devLogin}")
+    public Result<Integer> queryDeveloper(@PathVariable("devLogin") String devLogin) {
+        QueryWrapper<Developer> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dev_login", devLogin);
+        Developer developer = developerService.getOne(queryWrapper);
+        if (developer == null) {
+            return Result.error("未找到该开发者");
+        }
+        return Result.success(developer.getDevId());
+    }
 }

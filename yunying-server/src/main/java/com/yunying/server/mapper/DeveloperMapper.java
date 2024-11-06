@@ -35,4 +35,6 @@ public interface DeveloperMapper extends BaseMapper<Developer> {
 
     @MapKey("repo_id")
     List<Map<String, Object>> selectContribution(Integer devId);
+
+    List<String> selectLanguageByDevId(Integer devId);
 }

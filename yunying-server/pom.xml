@@ -40,8 +40,6 @@
         </dependency>
 
 
-
-
         <!--Zookeeper-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -94,11 +92,11 @@
             <version>3.21.3</version>
         </dependency>
 
-<!--        &lt;!&ndash;RabbitMQ&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-amqp</artifactId>-->
-<!--        </dependency>-->
+        <!--        &lt;!&ndash;RabbitMQ&ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-amqp</artifactId>-->
+        <!--        </dependency>-->
 
         <!--Mybatis-plus驱动-->
         <dependency>
@@ -112,9 +110,11 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-
-
-
+        <!--RabbitMQ驱动-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
 
 
     </dependencies>

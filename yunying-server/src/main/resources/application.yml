@@ -11,12 +11,19 @@ spring:
     password: ${yunying.datasource.password}
     driver-class-name: ${yunying.datasource.driver-class-name}
 
-#
-#  rabbitmq:
-#    host: localhost
-#    port: 5672
-#    username: guest
-#    password: guest
+  rabbitmq:
+    host: ${yunying.rabbitmq.host} # 你的虚拟机IP
+    port: ${yunying.rabbitmq.port} # 端口
+    virtual-host: ${yunying.rabbitmq.virtual-host} # 虚拟主机
+    username: ${yunying.rabbitmq.username} # 用户名
+    password: ${yunying.rabbitmq.password} # 密码
+
+  #
+  #  rabbitmq:
+  #    host: localhost
+  #    port: 5672
+  #    username: guest
+  #    password: guest
 
   cloud:
     zookeeper:
@@ -26,13 +33,24 @@ spring:
       config:
         enabled: true
         root: /config # 配置根路径
+    openfeign:
+      okhttp:
+        enabled: true
+      client:
+        config:
+          default:
+            connectTimeout: 10000
+            readTimeout: 10000
+            loggerLevel: basic
   data:
     redis:
       host: localhost
       port: 6379
 
-  elasticsearch:
-    uris: ${yunying.elasticsearch.uris} # 替换为你的ElasticSearch地址
+
+
+elasticsearch:
+  uris: ${yunying.elasticsearch.uris} # 替换为你的ElasticSearch地址
 
 resilience4j:
   circuitbreaker:
@@ -50,7 +68,10 @@ resilience4j:
         limitForPeriod: 10                # 每个时间窗口的最大请求数
         limitRefreshPeriod: 1s            # 限流器刷新频率（时间窗口大小）
         timeoutDuration: 500ms            # 获取许可的超时时间
-
+      myServiceRateLimiter:
+        limitForPeriod: 1
+        limitRefreshPeriod: 240s
+        timeoutDuration: 500ms
 
 
 mybatis-plus:

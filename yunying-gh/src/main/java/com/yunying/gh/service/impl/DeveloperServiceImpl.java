@@ -122,8 +122,9 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
             followingDevelopers.add(developer);
         }
 
-        String nation = DeveloperNationPredictionUtil.predictNation(centerDeveloper, followerDevelopers, followingDevelopers);
-        centerDeveloper.setNation(nation);
+        String[] nation = DeveloperNationPredictionUtil.predictNationWithConfidence(centerDeveloper, followerDevelopers, followingDevelopers);
+        centerDeveloper.setNation(nation[0]);
+        centerDeveloper.setNationConf(Double.valueOf(nation[1]));
         updateById(centerDeveloper);
         return true;
     }

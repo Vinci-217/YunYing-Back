@@ -9,3 +9,10 @@ yunying:
 
   elasticsearch:
     uris: http://localhost:9200
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: root
+    password: 20040217
+    virtual-host: /
