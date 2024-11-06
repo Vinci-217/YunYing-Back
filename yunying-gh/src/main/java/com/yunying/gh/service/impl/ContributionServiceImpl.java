@@ -6,8 +6,8 @@ import com.yunying.gh.domain.Repository;
 import com.yunying.gh.mapper.ContributionMapper;
 import com.yunying.gh.service.IContributionService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.yunying.gh.util.NormalizeUtil;
-import com.yunying.gh.util.ScoreUtil;
+
+import com.yunying.gh.util.ContributionScoreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,8 +27,8 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionMapper, Con
     private ContributionMapper contributionMapper;
 
 
-    private static final double WEIGHT_COMMIT = 0.2;
-    private static final double WEIGHT_PR = 0.6;
+    private static final double WEIGHT_COMMIT = 0.1;
+    private static final double WEIGHT_PR = 0.7;
     private static final double WEIGHT_ISSUE = 0.2;
 
 
@@ -54,15 +54,7 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionMapper, Con
         Integer prCount = contribution.getPrCount();
         Integer issueCount = contribution.getIssueCount();
 
-        double normalizedCommitCount = NormalizeUtil.normalizeValue(commitCount, contributionMapper, "commit_count");
-        double normalizedPrCount = NormalizeUtil.normalizeValue(prCount, contributionMapper, "pr_count");
-        double normalizedIssueCount = NormalizeUtil.normalizeValue(issueCount, contributionMapper, "issue_count");
-
-        double originalScore = normalizedCommitCount * WEIGHT_COMMIT
-                + normalizedPrCount * WEIGHT_PR
-                + normalizedIssueCount * WEIGHT_ISSUE;
-
-        double finalScore = ScoreUtil.scaleScore(originalScore);
+        double finalScore = ContributionScoreUtil.calculateFinalScore(commitCount, prCount, issueCount);
 
         // 更新数据库
         contribution.setWeight(finalScore);

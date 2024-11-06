@@ -2,8 +2,8 @@ package com.yunying.gh.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
+import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
 
 /**
@@ -12,7 +12,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author vinci
- * @since 2024-11-05
+ * @since 2024-11-06
  */
 @TableName("following")
 public class Following implements Serializable {
@@ -22,7 +22,6 @@ public class Following implements Serializable {
     /**
      * 开发者id
      */
-    @TableId(value = "dev_id", type = IdType.AUTO)
     private Integer devId;
 
     /**
@@ -44,6 +43,11 @@ public class Following implements Serializable {
      * 【外键字段】粉丝名字
      */
     private Integer followerId;
+
+    /**
+     * 地区
+     */
+    private String location;
 
     /**
      * 创建时间
@@ -90,6 +94,13 @@ public class Following implements Serializable {
     public void setFollowerId(Integer followerId) {
         this.followerId = followerId;
     }
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
     public LocalDateTime getCreateTime() {
         return createTime;
     }
@@ -113,6 +124,7 @@ public class Following implements Serializable {
             ", devName=" + devName +
             ", avatar=" + avatar +
             ", followerId=" + followerId +
+            ", location=" + location +
             ", createTime=" + createTime +
             ", updateTime=" + updateTime +
         "}";

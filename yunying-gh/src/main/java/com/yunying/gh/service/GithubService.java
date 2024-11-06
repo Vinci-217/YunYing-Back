@@ -245,11 +245,15 @@ public class GithubService {
                 }
                 String avatar = follower.getAvatarUrl();
                 Integer followingId = Math.toIntExact(user.getId());
+                String location = follower.getLocation();
+
                 followerEntity.setDevId(devId);
                 followerEntity.setDevLogin(devLogin);
                 followerEntity.setDevName(devName);
                 followerEntity.setAvatar(avatar);
                 followerEntity.setFollowingId(followingId);
+                followerEntity.setLocation(location);
+
 
                 System.out.println("粉丝 ID: " + devId);
                 System.out.println("粉丝登录名: " + devLogin);
@@ -291,11 +295,14 @@ public class GithubService {
                 }
                 String avatar = following.getAvatarUrl();
                 Integer followerId = Math.toIntExact(user.getId());
+                String location = following.getLocation();
+
                 followingEntity.setDevId(devId);
                 followingEntity.setDevLogin(devLogin);
                 followingEntity.setDevName(devName);
                 followingEntity.setAvatar(avatar);
                 followingEntity.setFollowerId(followerId);
+                followingEntity.setLocation(location);
 
                 System.out.println("关注者 ID: " + devId);
                 System.out.println("关注者登录名: " + devLogin);

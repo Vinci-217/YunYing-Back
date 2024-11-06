@@ -5,17 +5,14 @@ import com.yunying.gh.mapper.ContributionMapper;
 import com.yunying.gh.mapper.RepositoryMapper;
 import com.yunying.gh.service.IRepositoryService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.yunying.gh.util.NormalizeUtil;
-import com.yunying.gh.util.ScoreUtil;
+
+import com.yunying.gh.util.RepositoryScoreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author vinci
@@ -42,6 +39,7 @@ public class RepositoryServiceImpl extends ServiceImpl<RepositoryMapper, Reposit
 
     /**
      * 计算仓库的重要性得分
+     *
      * @param repository
      */
     @Override
@@ -56,26 +54,10 @@ public class RepositoryServiceImpl extends ServiceImpl<RepositoryMapper, Reposit
         int contributors = contributionMapper.selectCountByRepoId(repoId);
         Integer starCount = repository.getStarCount();
 
-        double normalizedStarCount = NormalizeUtil.normalizeValue(starCount, repositoryMapper, "star_count");
-        double normalizedForkCount = NormalizeUtil.normalizeValue(forkCount, repositoryMapper, "fork_count");
-        double normalizedWatchCount = NormalizeUtil.normalizeValue(watchCount, repositoryMapper, "watch_count");
-        double normalizedCommits = NormalizeUtil.normalizeValue(commits, contributionMapper, "commits");
-        double normalizedIssueCount = NormalizeUtil.normalizeValue(issueCount, repositoryMapper, "issue_count");
-        double normalizedPrCount = NormalizeUtil.normalizeValue(prCount, repositoryMapper, "pr_count");
-        double normalizedContributors = NormalizeUtil.normalizeValue(contributors, contributionMapper, "contributors");
 
-
-        double originalScore = normalizedStarCount * WEIGHT_STAR
-                + normalizedForkCount * WEIGHT_FORK
-                + normalizedWatchCount * WEIGHT_WATCH
-                + normalizedCommits * WEIGHT_COMMITS
-                + normalizedIssueCount * WEIGHT_ISSUE
-                + normalizedPrCount * WEIGHT_PR
-                + normalizedContributors * WEIGHT_CONTRIBUTORS;
-
-        float finalScore = ScoreUtil.scaleScore(originalScore);
+        double finalScore = RepositoryScoreUtil.calculateFinalScore(starCount, forkCount, watchCount, commits, issueCount, prCount, contributors);
         // 更新数据库
-        repository.setImportance(finalScore);
+        repository.setImportance((float) finalScore);
         updateById(repository);
 
     }

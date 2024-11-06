@@ -10,4 +10,16 @@
         WHERE A.following_id = #{dev_id}
           AND B.follower_id = #{dev_id};
     </select>
+    <select id="selectFollowers" resultType="com.yunying.gh.domain.Follower"
+            parameterType="java.lang.Integer">
+        SELECT *
+        FROM follower
+        WHERE following_id = #{devId};
+    </select>
+    <select id="selectFollowing" resultType="com.yunying.gh.domain.Following"
+            parameterType="java.lang.Integer">
+        SELECT *
+        FROM following
+        WHERE follower_id = #{devId};
+    </select>
 </mapper>
