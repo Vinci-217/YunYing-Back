@@ -94,6 +94,9 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
             }
             Integer repoId = contribution.getRepoId();
             Repository repository = repositoryMapper.selectById(repoId);
+            if (repository == null) {
+                continue;
+            }
 
             repositoryScore += contribution.getWeight() * WEIGHT_CONTRIBUTION
                     + repository.getImportance() * WEIGHT_REPOSITORY;

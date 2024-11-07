@@ -48,7 +48,7 @@ public class DeveloperNationPredictionUtil {
 
         if (devCluster == null) {
             // 如果找不到开发者所在的社区，返回默认的nation和置信度0
-            return new String[]{"China", "0"};
+            return new String[]{"CN", "0"};
         }
 
         // 从开发者所在的社区中，统计每个国家出现的次数，跳过nation为空的开发者
@@ -58,7 +58,7 @@ public class DeveloperNationPredictionUtil {
 
         // 如果社区内没有有效的国家数据，返回默认的结果
         if (nationCounts.isEmpty()) {
-            return new String[]{"China", "0"};
+            return new String[]{"CN", "0"};
         }
 
         // 选择出现次数最多的国家作为预测结果
@@ -70,9 +70,9 @@ public class DeveloperNationPredictionUtil {
         long predictedNationCount = predictedNation.map(Map.Entry::getValue).orElse(0L);
         double confidence = (double) predictedNationCount / totalCount;
 
-        // 如果无法预测（所有节点国家数量相同），返回默认的国家"China"和置信度0
-        String nation = predictedNation.map(Map.Entry::getKey).orElse("China");
-        String confidenceStr = nation.equals("China") ? "0" : String.format("%.2f", confidence);
+        // 如果无法预测（所有节点国家数量相同），返回默认的国家"CN"和置信度0
+        String nation = predictedNation.map(Map.Entry::getKey).orElse("CN");
+        String confidenceStr = nation.equals("CN") ? "0" : String.format("%.2f", confidence);
 
         return new String[]{nation, confidenceStr};
     }

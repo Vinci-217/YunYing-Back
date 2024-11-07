@@ -19,10 +19,10 @@ spring:
           predicates:
             - Path=/ai/**
         - id: yunying-server
-          uri: http://localhost:8082/yunying-server
-#          uri: lb://yunying-server
+          uri: http://localhost:8082/yunying-server/
+          #          uri: lb://yunying-server
           predicates:
-            - Path=/server/**
+            - Path=/**
         - id: yunying-gh
           uri: http://localhost:8083/yunying-gh/
           predicates:

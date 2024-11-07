@@ -94,6 +94,7 @@ public class DeveloperController {
      * @return
      */
     @GetMapping("/select/fieldAndNation")
+    @CrossOrigin("http://localhost:3000")
     public Result<List<Map<String, Object>>> select(
             @RequestParam("field") String field, @RequestParam("nation") String nation,
             @RequestParam("page") Integer page, @RequestParam("pageSize") Integer pageSize) {
@@ -125,6 +126,7 @@ public class DeveloperController {
      * @return
      */
     @GetMapping("/select/nation")
+    @CrossOrigin("http://localhost:3000")
     public Result<List<String>> selectNation() {
         List<String> nations = developerService.selectNation();
         return Result.success(nations);
@@ -136,6 +138,7 @@ public class DeveloperController {
      * @return
      */
     @GetMapping("/select/field")
+    @CrossOrigin("http://localhost:3000")
     public Result<List<String>> selectField() {
         List<String> fields = developerService.selectField();
         return Result.success(fields);
@@ -148,6 +151,7 @@ public class DeveloperController {
      * @return
      */
     @GetMapping("/select/{dev_id}")
+    @CrossOrigin("http://localhost:3000")
     public Result<Map<String, Object>> selectDeveloper(@PathVariable("dev_id") Integer dev_id) {
         Developer developer = developerService.selectByDevId(dev_id);
 
@@ -167,6 +171,7 @@ public class DeveloperController {
      * @return
      */
     @GetMapping("/select/ai-report/{dev_id}")
+    @CrossOrigin("http://localhost:3000")
     public Result<String> selectAIReport(@PathVariable("dev_id") Integer dev_id) {
         QueryWrapper<Developer> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dev_id", dev_id).select("profile");
@@ -181,12 +186,14 @@ public class DeveloperController {
      * @return
      */
     @GetMapping("select/contribution/{dev_id}")
+    @CrossOrigin("http://localhost:3000")
     public Result<List<Map<String, Object>>> selectContribution(@PathVariable("dev_id") Integer dev_id) {
         List<Map<String, Object>> contribution = developerService.selectContribution(dev_id);
         return Result.success(contribution);
     }
 
     @PostMapping("/insert")
+    @CrossOrigin("http://localhost:3000")
     @RateLimiter(name = "myServiceRateLimiter", fallbackMethod = "rateLimiterFallback")
     public Result<String> insert(@RequestBody Map<String, Object> dev) throws ExecutionException, InterruptedException, TimeoutException {
 
@@ -258,6 +265,7 @@ public class DeveloperController {
      * @return
      */
     @GetMapping("/select/language/{devId}")
+    @CrossOrigin("http://localhost:3000")
     public Result<Map<String, Integer>> selectLanguage(@PathVariable("devId") Integer devId) {
 
         Map<String, Integer> language = developerService.selectLanguageByDevId(devId);
@@ -265,6 +273,7 @@ public class DeveloperController {
     }
 
     @GetMapping("/query/{devLogin}")
+    @CrossOrigin("http://localhost:3000")
     public Result<Integer> queryDeveloper(@PathVariable("devLogin") String devLogin) {
         QueryWrapper<Developer> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("dev_login", devLogin);
