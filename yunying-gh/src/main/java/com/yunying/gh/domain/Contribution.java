@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("Contribution")
+@TableName("contribution")
 public class Contribution implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -64,6 +64,9 @@ public class Contribution implements Serializable {
      * 【推测字段】开发者领域
      */
     private String field;
+
+
+    private Double fieldConf;
 
     /**
      * commit的数量

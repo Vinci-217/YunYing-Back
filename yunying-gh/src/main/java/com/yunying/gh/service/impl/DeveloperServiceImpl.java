@@ -80,7 +80,7 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
      */
     @Override
     public void calculateTalentRank(String devLogin) {
-        Developer developer = developerMapper.selectById(new QueryWrapper<Developer>().eq("dev_login", devLogin));
+        Developer developer = developerMapper.selectOne(new QueryWrapper<Developer>().eq("dev_login", devLogin));
 
         Integer devId = developer.getDevId();
         // 计算仓库贡献得分

@@ -11,6 +11,8 @@ import com.yunying.gh.util.ContributionScoreUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
+
 /**
  * <p>
  * 服务实现类
@@ -66,9 +68,16 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionMapper, Con
     public void predictField(Contribution contribution) {
 
         String[] fields = {"bigdata", "websecurity", "backend", "ai", "frontend", "embedded", "game"};
+        Random random = new Random();
         // 随机选择一个领域
-        String field = fields[(int) (Math.random() * fields.length)];
-        contribution.setField(field);
+        String selectedField = fields[random.nextInt(fields.length)];
+
+        // 随机生成置信度，0 到 1 之间
+        double confidence = random.nextDouble() * 1; // d 是最大值
+
+        // 设置领域和置信度
+        contribution.setField(selectedField);
+        contribution.setFieldConf(confidence);
         updateById(contribution);
     }
 

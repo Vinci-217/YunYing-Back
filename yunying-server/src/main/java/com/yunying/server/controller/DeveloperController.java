@@ -11,6 +11,7 @@ import com.yunying.server.service.GhClient;
 import com.yunying.server.service.IDeveloperService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import jakarta.annotation.PostConstruct;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.amqp.rabbit.annotation.Exchange;
@@ -59,6 +60,29 @@ public class DeveloperController {
     private static final ConcurrentHashMap<String, CompletableFuture<String>> messageFutureMap = new ConcurrentHashMap<>();
 
     private static final ConcurrentHashMap<String, CompletableFuture<String>> messageReceivedMap = new ConcurrentHashMap<>();
+
+
+    @PostConstruct
+    public void init() {
+        // 在Bean初始化之后执行
+        System.out.println("Bean 初始化之后的操作");
+        // 清除Redis缓存
+        RBucket<Object> work = redissonClient.getBucket("work");
+        work.set("false");
+
+        // 清除队列缓存
+        while (true) {
+            // 尝试从队列中获取消息
+            Object message1 = rabbitTemplate.receiveAndConvert("hello.queue");
+            Object message2 = rabbitTemplate.receiveAndConvert("bye.queue");
+            if (message1 == null && message2 == null) {
+                // 如果没有消息，说明队列已经空了，跳出循环
+                break;
+            }
+        }
+
+        System.out.println("队列  已被清空");
+    }
 
     /**
      * 根据领域和国家查询开发者列表
@@ -166,6 +190,7 @@ public class DeveloperController {
     @RateLimiter(name = "myServiceRateLimiter", fallbackMethod = "rateLimiterFallback")
     public Result<String> insert(@RequestBody Map<String, Object> dev) throws ExecutionException, InterruptedException, TimeoutException {
 
+        System.out.println("接收到请求：" + dev);
         String devLogin = (String) dev.get("devLogin");
 
         RBucket<String> bucket = redissonClient.getBucket("work");

@@ -66,6 +66,9 @@ public class Contribution implements Serializable {
     private String field;
 
 
+    private Double fieldConf;
+
+
     /**
      * commit的数量
      */

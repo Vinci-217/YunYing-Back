@@ -96,12 +96,8 @@ public class GithubController {
     ))
     @Transactional
     public void insertDeveloperInfo(String devLogin) throws IOException, NoSuchFieldException, IllegalAccessException {
-        processDeveloperInfoAsync(devLogin);
-    }
-
-    @Transactional
-    public void processDeveloperInfoAsync(String devLogin) throws IOException, NoSuchFieldException, IllegalAccessException {
         System.out.println("收到消息：" + devLogin);
+
 
         RBucket<String> bucket = redissonClient.getBucket("work");
         bucket.set("true", 4, TimeUnit.MINUTES);  // 设置键值对
@@ -136,8 +132,8 @@ public class GithubController {
             bucket.set("false");
 //            rabbitTemplate.convertAndSend("amq.direct", "finishkey", devLogin);
         }
-
     }
+
 
     /**
      * 更新仓库信息的 API
