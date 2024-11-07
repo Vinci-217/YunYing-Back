@@ -119,7 +119,11 @@ public class GithubController {
         developerService.calculateFollowersScore(devLogin);
         // 预测开发者的国家
         developerService.propagateNation(devLogin);
+        // 计算开发者的Talentrank
+        developerService.calculateTalentRank(devLogin);
 
+        // 插入或更新开发者的报告
+        developerService.setReport(devLogin);
 
         // 插入或更新开发者的仓库信息和贡献信息
         boolean repo = gitHubService.insertOrUpdateRepository(devLogin);

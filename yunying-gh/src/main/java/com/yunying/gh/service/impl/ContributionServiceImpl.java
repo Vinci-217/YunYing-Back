@@ -57,4 +57,20 @@ public class ContributionServiceImpl extends ServiceImpl<ContributionMapper, Con
 
     }
 
+    /**
+     * 预测领域
+     *
+     * @param contribution
+     */
+    @Override
+    public void predictField(Contribution contribution) {
+
+        String[] fields = {"bigdata", "websecurity", "backend", "ai", "frontend", "embedded", "game"};
+        // 随机选择一个领域
+        String field = fields[(int) (Math.random() * fields.length)];
+        contribution.setField(field);
+        updateById(contribution);
+    }
+
+
 }

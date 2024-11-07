@@ -2,10 +2,11 @@ package com.yunying.gh.service;
 
 import com.yunying.gh.domain.Contribution;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author vinci
@@ -22,4 +23,11 @@ public interface IContributionService extends IService<Contribution> {
      */
     void calculateContributionScore(Contribution contribution) throws NoSuchFieldException, IllegalAccessException;
 
+
+    /**
+     * 预测字段
+     *
+     * @param contribution
+     */
+    void predictField(@Param("contribution") Contribution contribution);
 }

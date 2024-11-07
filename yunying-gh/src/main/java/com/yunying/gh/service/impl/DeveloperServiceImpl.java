@@ -1,12 +1,11 @@
 package com.yunying.gh.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.yunying.gh.domain.Developer;
-import com.yunying.gh.domain.Follower;
-import com.yunying.gh.domain.Following;
+import com.yunying.gh.domain.*;
 import com.yunying.gh.mapper.ContributionMapper;
 import com.yunying.gh.mapper.DeveloperMapper;
 import com.yunying.gh.mapper.RepositoryMapper;
+import com.yunying.gh.service.AIClient;
 import com.yunying.gh.service.IDeveloperService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yunying.gh.util.DeveloperNationPredictionUtil;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -38,6 +38,9 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
 
     @Autowired
     private RepositoryMapper repositoryMapper;
+
+    @Autowired
+    private AIClient aIClient;
 
     private static final double WEIGHT_REPOSITORY = 0.4;
     private static final double WEIGHT_CONTRIBUTION = 0.4; // 权重示例
@@ -76,13 +79,34 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
      * 计算开发者的TalentRank
      */
     @Override
-    public void calculateTalentRank(int devId) {
-//        Developer developer = developerMapper.selectById(devId);
-//        // 1. 计算仓库贡献得分
-//        List<Contribution> contributions = contributionMapper.selectByDevId(devId);
-//
-//        List<Repository> repositories = contributionMapper.selectRepoByDevId(devId);
-//
+    public void calculateTalentRank(String devLogin) {
+        Developer developer = developerMapper.selectById(new QueryWrapper<Developer>().eq("dev_login", devLogin));
+
+        Integer devId = developer.getDevId();
+        // 计算仓库贡献得分
+        List<Contribution> contributions = contributionMapper.selectByDevId(devId);
+
+        List<Repository> repositories = contributionMapper.selectRepoByDevId(devId);
+        double repositoryScore = 0;
+        for (Contribution contribution : contributions) {
+            if (!Objects.equals(contribution.getDevId(), devId)) {
+                continue;
+            }
+            Integer repoId = contribution.getRepoId();
+            Repository repository = repositoryMapper.selectById(repoId);
+
+            repositoryScore += contribution.getWeight() * WEIGHT_CONTRIBUTION
+                    + repository.getImportance() * WEIGHT_REPOSITORY;
+        }
+
+        // 计算粉丝得分
+        double followersScore = developer.getFollowersWeight();
+
+        // 计算最终得分
+        double finalScore = repositoryScore + followersScore;
+        // 更新数据库
+        developer.setTalentRank((float) finalScore);
+        updateById(developer);
 
     }
 
@@ -126,6 +150,24 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
         centerDeveloper.setNation(nation[0]);
         centerDeveloper.setNationConf(Double.valueOf(nation[1]));
         updateById(centerDeveloper);
+        return true;
+    }
+
+    /**
+     * 设置开发者的报告
+     *
+     * @param devLogin
+     * @return
+     */
+    @Override
+    public boolean setReport(String devLogin) {
+        QueryWrapper<Developer> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("dev_login", devLogin);
+        Developer developer = developerMapper.selectOne(queryWrapper);
+        String content = developer.toString();
+        String report = aIClient.getReport(devLogin, content);
+        developer.setProfile(report);
+        updateById(developer);
         return true;
     }
 

@@ -24,4 +24,9 @@
         FROM contribution
         WHERE dev_id = #{devId}
     </select>
+    <select id="selectRepoByDevId" resultType="com.yunying.gh.domain.Repository">
+        SELECT *
+        FROM repository
+        WHERE repo_id IN (SELECT repo_id FROM contribution WHERE dev_id = #{devId})
+    </select>
 </mapper>

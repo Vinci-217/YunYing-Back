@@ -223,6 +223,7 @@ public class GithubService {
 
                 try {
                     contributionService.calculateContributionScore(contribution);
+                    contributionService.predictField(contribution);
                 } catch (NoSuchFieldException | IllegalAccessException e) {
                     throw new RuntimeException("贡献度插入失败");
                 }

@@ -28,7 +28,7 @@ public interface IDeveloperService extends IService<Developer> {
      * @param
      * @param devId
      */
-    void calculateTalentRank(int devId);
+    void calculateTalentRank(String devLogin);
 
 
     /**
@@ -38,6 +38,15 @@ public interface IDeveloperService extends IService<Developer> {
      * @return
      */
     boolean propagateNation(String devLogin);
+
+
+    /**
+     * 设置开发者的报告状态
+     *
+     * @param devLogin
+     * @return
+     */
+    boolean setReport(@Param("devLogin") String devLogin);
 
 
 }

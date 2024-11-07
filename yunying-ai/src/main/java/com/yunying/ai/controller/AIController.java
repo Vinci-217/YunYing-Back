@@ -12,6 +12,7 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -57,6 +58,40 @@ public class AIController {
         }
 
         return Result.success(output);
+    }
+
+    @PostMapping(value = "/report", produces = "text/plain; charset=UTF-8")
+    public String getReport(@RequestParam("devLogin") String devLogin, @RequestParam("content") String content) {
+
+        String userInput = "我是" + devLogin + "，请你针对Github的开源数据给我一个综合评估报告。我的数据如下：" +
+                content;
+        // 发起聊天请求并处理响应
+        String output = chatClient.prompt()
+                .messages()
+                .user(userInput)
+                .advisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()))
+                .call()
+                .content();
+
+
+        return output;
+    }
+
+    @PostMapping(value = "/field", produces = "text/plain; charset=UTF-8")
+    public String getField(@RequestParam("devLogin") String devLogin, @RequestParam("content") String content) {
+
+        String userInput = "我是" + devLogin + "，请你根据下面内容预测我的开发领域。我的数据如下：" +
+                content;
+        // 发起聊天请求并处理响应
+        String output = chatClient.prompt()
+                .messages()
+                .user(userInput)
+                .advisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()))
+                .call()
+                .content();
+
+
+        return output;
     }
 
 
