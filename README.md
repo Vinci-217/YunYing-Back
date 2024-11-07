@@ -56,3 +56,11 @@ docker run --name redis -d -p 6379:6379 redis
 3. 将application-dev.yml里面的改为自己的配置，github的token需要改成自己的
 
 4. 运行各个服务
+
+## 前端架构
+
+![](images/%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84%E5%9B%BE-17310068176641.png)
+
+## 后端架构
+
+![image-20241108013206319](images/image-20241108013206319-17310068349093.png)
