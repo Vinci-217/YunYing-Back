@@ -166,6 +166,7 @@ public class DeveloperController {
     @RateLimiter(name = "myServiceRateLimiter", fallbackMethod = "rateLimiterFallback")
     public Result<String> insert(@PathVariable("devLogin") String devLogin) throws ExecutionException, InterruptedException, TimeoutException {
 
+
         RBucket<String> bucket = redissonClient.getBucket("work");
         if (bucket.get() != null && bucket.get().equals("true")) {
             return Result.error("服务器繁忙，请稍后重试");
@@ -175,8 +176,11 @@ public class DeveloperController {
 
         String message = waitForNotification(devLogin);
 
+        Developer finlaDeveloper = developerService.getOne(new QueryWrapper<Developer>().eq("dev_login", devLogin));
+
+
         if (message != null && message.equals("success")) {
-            return Result.success("插入成功");
+            return Result.success(String.valueOf(finlaDeveloper.getDevId()));
         }
 
 

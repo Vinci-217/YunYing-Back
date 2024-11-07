@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/github")
@@ -103,7 +104,7 @@ public class GithubController {
         System.out.println("收到消息：" + devLogin);
 
         RBucket<String> bucket = redissonClient.getBucket("work");
-        bucket.set("true");  // 设置键值对
+        bucket.set("true", 4, TimeUnit.MINUTES);  // 设置键值对
 
         boolean user = gitHubService.insertOrUpdateDeveloper(devLogin);
 
