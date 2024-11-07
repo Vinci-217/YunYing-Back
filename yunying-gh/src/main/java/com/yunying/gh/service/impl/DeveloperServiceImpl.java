@@ -167,6 +167,7 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
         String content = developer.toString();
 //        String report = aIClient.getReport(devLogin, content);
 //        developer.setProfile(report);
+        developer.setProfile("你是一个很优秀的开发者，击败了99%的用户");
         updateById(developer);
         return true;
     }
