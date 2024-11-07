@@ -3,6 +3,11 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+
+# 忽略所有的 application-dev.yml 文件
+**/application-dev.yml
+
+
 ### STS ###
 .apt_generated
 .classpath
