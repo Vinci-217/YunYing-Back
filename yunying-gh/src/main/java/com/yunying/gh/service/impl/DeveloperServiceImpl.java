@@ -165,8 +165,8 @@ public class DeveloperServiceImpl extends ServiceImpl<DeveloperMapper, Developer
         queryWrapper.eq("dev_login", devLogin);
         Developer developer = developerMapper.selectOne(queryWrapper);
         String content = developer.toString();
-        String report = aIClient.getReport(devLogin, content);
-        developer.setProfile(report);
+//        String report = aIClient.getReport(devLogin, content);
+//        developer.setProfile(report);
         updateById(developer);
         return true;
     }

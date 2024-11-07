@@ -162,10 +162,11 @@ public class DeveloperController {
         return Result.success(contribution);
     }
 
-    @PostMapping("/insert/{devLogin}")
+    @PostMapping("/insert")
     @RateLimiter(name = "myServiceRateLimiter", fallbackMethod = "rateLimiterFallback")
-    public Result<String> insert(@PathVariable("devLogin") String devLogin) throws ExecutionException, InterruptedException, TimeoutException {
+    public Result<String> insert(@RequestBody Map<String, Object> dev) throws ExecutionException, InterruptedException, TimeoutException {
 
+        String devLogin = (String) dev.get("devLogin");
 
         RBucket<String> bucket = redissonClient.getBucket("work");
         if (bucket.get() != null && bucket.get().equals("true")) {
